@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="txt_size_song_name">18sp</dimen>
+    <dimen name="txt_size_song_artist">15sp</dimen>
+    <dimen name="marginEnd_option_menu">10dp</dimen>
+    <dimen name="height_song_nav">70dp</dimen>
+    <dimen name="icon_width_common">50dp</dimen>
+    <dimen name="ic_height_common">50dp</dimen>
+    <dimen name="ic_like_margin_start">30dp</dimen>
+    <dimen name="ic_dislike_margin_end">30dp</dimen>
+    <dimen name="txt_index_song_size">20dp</dimen>
+</resources>

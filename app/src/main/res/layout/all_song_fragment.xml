@@ -15,8 +15,7 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:title="@string/titleAppBar"
-        tools:ignore="MissingConstraints"
-        />
+        tools:ignore="MissingConstraints" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -28,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/stat_notify_musicplayer"
             />
 
         <TextView
@@ -62,21 +61,22 @@
             app:layout_constraintStart_toEndOf="@+id/img_Music"
             tools:ignore="MissingConstraints" />
 
-        <ImageButton
+        <Button
             android:id="@+id/img_pause_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher_background"
+            android:background="@drawable/ic_pause_on_actionbar"
+            android:backgroundTint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck"
-            tools:layout_editor_absoluteY="0dp"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_items"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolBar"
-        android:layout_marginTop="8dp" />
+        android:layout_below="@id/toolBar" />
 
 </RelativeLayout>
