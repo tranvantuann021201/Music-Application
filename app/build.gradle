@@ -12,7 +12,6 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -28,6 +27,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
     }
 }
 
@@ -50,5 +52,17 @@ dependencies {
 
     //RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    //toolbar
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:2.4.2"
+    // add a dependency to your build.gradle file for Android 12 builds:
+    implementation 'androidx.work:work-runtime-ktx:2.8.0-alpha02'
 
 }

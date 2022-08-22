@@ -2,22 +2,21 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation.xml"
-    app:startDestination="@id/mediaPlayBackFragment">
-
-    <fragment
-        android:id="@+id/mediaPlayBackFragment"
-        android:name="com.example.musicapplication.mediaplayback.MediaPlayBackFragment"
-        android:label="MediaPlayBackFragment" >
-        <action
-            android:id="@+id/action_mediaPlayBackFragment_to_allSongFragment"
-            app:destination="@id/allSongFragment" />
-    </fragment>
+    app:startDestination="@id/allSongFragment">
     <fragment
         android:id="@+id/allSongFragment"
         android:name="com.example.musicapplication.allsong.AllSongFragment"
-        android:label="AllSongFragment" >
+        android:label="Music" >
         <action
             android:id="@+id/action_allSongFragment_to_mediaPlayBackFragment"
             app:destination="@id/mediaPlayBackFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mediaPlayBackFragment"
+        android:name="com.example.musicapplication.mediaplayback.MediaPlayBackFragment"
+        android:label="MediaPlayBackFragment">
+        <action
+            android:id="@+id/action_mediaPlayBackFragment4_to_allSongFragment4"
+            app:destination="@id/allSongFragment" />
     </fragment>
 </navigation>

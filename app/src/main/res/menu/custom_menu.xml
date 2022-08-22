@@ -3,7 +3,21 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/app_bar_search"
-        android:icon="@drawable/ic_search_white"
+        android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:actionViewClass="android.widget.SearchView" />
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom"
+        />
+    <item android:title="@string/title_item_allSong"
+        android:id="@+id/item_allSong"
+        android:icon="@drawable/stat_notify_musicplayer"
+        app:showAsAction="ifRoom"
+        />
+
+    <item android:title="@string/title_item_favoriteSong"
+        android:id="@+id/item_favoriteSong"
+        android:icon="@drawable/ic_family_24dp"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>

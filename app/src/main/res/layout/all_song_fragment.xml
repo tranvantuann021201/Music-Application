@@ -1,82 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/mainColor"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:title="@string/titleAppBar"
-        tools:ignore="MissingConstraints" />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/mainColor"
-        android:layout_alignParentBottom="true"
-        >
-        <ImageView
-            android:id="@+id/img_Music"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints"
-            android:src="@drawable/stat_notify_musicplayer"
-            />
+    <data>
 
-        <TextView
-            android:id="@+id/song_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@string/song_name"
-            android:textColor="#212121"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/song_artist"
-            app:layout_constraintEnd_toStartOf="@+id/img_pause_btn"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/img_Music"
-            app:layout_constraintTop_toTopOf="@+id/img_Music"
-            app:layout_constraintVertical_bias="0.615"
-            tools:ignore="MissingConstraints" />
+        <variable
+            name="allSong"
+            type="com.example.musicapplication.allsong.AllSongFragment" />
+    </data>
 
-        <TextView
-            android:id="@+id/song_artist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/song_artist"
-            android:textColor="#212121"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="@+id/img_Music"
-            app:layout_constraintEnd_toStartOf="@+id/img_pause_btn"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/img_Music"
-            tools:ignore="MissingConstraints" />
-
-        <Button
-            android:id="@+id/img_pause_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_pause_on_actionbar"
-            android:backgroundTint="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_items"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolBar" />
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mainColor"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:visibility="visible"
+            app:title="@string/titleAppBar"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25sp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_search_white" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_nav_song"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nav_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:background="@color/bg_color_song_nav"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/img_Music"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/stat_notify_musicplayer"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="3dp" />
+
+            <TextView
+                android:id="@+id/song_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/song_name"
+                android:textColor="#212121"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/song_artist"
+                app:layout_constraintEnd_toStartOf="@+id/btn_play_pause"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/img_Music"
+                app:layout_constraintTop_toTopOf="@+id/img_Music"
+                app:layout_constraintVertical_bias="1.0"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/song_artist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/song_artist"
+                android:textColor="#212121"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="@+id/img_Music"
+                app:layout_constraintEnd_toStartOf="@+id/btn_play_pause"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/img_Music"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/btn_play_pause"
+                android:layout_width="@dimen/icon_width_common"
+                android:layout_height="@dimen/ic_height_common"
+                android:layout_marginEnd="@dimen/marginEnd_option_menu"
+                android:background="@drawable/ic_play_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_song"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom_nav_song"
+            android:layout_below="@id/toolBar"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </RelativeLayout>
+</layout>
