@@ -3,8 +3,9 @@ package com.example.musicapplication.mediaplayback
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.musicapplication.database.FavoriteSongDatabaseDao
 
-class MediaPlayBackViewModel: ViewModel() {
+class MediaPlayBackViewModel(database: FavoriteSongDatabaseDao) : ViewModel() {
     //get attributes data of song
     private val _songName = MutableLiveData<String?>()
     val songName: MutableLiveData<String?>

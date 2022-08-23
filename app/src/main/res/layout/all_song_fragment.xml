@@ -8,7 +8,7 @@
 
         <variable
             name="allSong"
-            type="com.example.musicapplication.allsong.AllSongFragment" />
+            type="com.example.musicapplication.allsong.AllSongViewModel" />
     </data>
 
     <RelativeLayout
@@ -49,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/stat_notify_musicplayer"
+                app:imageBitmap = "@{allSong.songPicture}"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="3dp" />
@@ -58,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@string/song_name"
+                android:text="@{allSong.songName}"
                 android:textColor="#212121"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -75,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/song_artist"
+                android:text="@{allSong.songArtist}"
                 android:textColor="#212121"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_Music"

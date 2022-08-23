@@ -9,7 +9,9 @@
         android:label="Music" >
         <action
             android:id="@+id/action_allSongFragment_to_mediaPlayBackFragment"
-            app:destination="@id/mediaPlayBackFragment" />
+            app:destination="@id/mediaPlayBackFragment"
+            app:popUpTo="@id/mediaPlayBackFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/mediaPlayBackFragment"
@@ -17,6 +19,8 @@
         android:label="MediaPlayBackFragment">
         <action
             android:id="@+id/action_mediaPlayBackFragment4_to_allSongFragment4"
-            app:destination="@id/allSongFragment" />
+            app:destination="@id/allSongFragment"
+            app:popUpTo="@id/allSongFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
