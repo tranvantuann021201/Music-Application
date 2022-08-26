@@ -9,11 +9,15 @@
             name="song"
             type="com.example.musicapplication.database.SongTable" />
 
+        <variable
+            name="allSongViewModel"
+            type="com.example.musicapplication.allsong.AllSongViewModel" />
+
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/ic_height_common">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/song_index"
@@ -34,7 +38,7 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@id/song_index"
-            android:text="@string/song_name"
+            android:text="@{allSongViewModel.songName}"
             android:textColor="#212121"
             android:textSize="@dimen/txt_size_song_name" />
 
@@ -46,7 +50,7 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/song_index"
-            android:text="@string/song_time"
+            android:text="@{allSongViewModel.songDuration.toString()}"
             android:textColor="#212121"
             android:textSize="@dimen/txt_size_song_artist"
             app:layout_constraintHorizontal_bias="0.0"

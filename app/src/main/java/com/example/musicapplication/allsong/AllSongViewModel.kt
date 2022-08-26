@@ -3,9 +3,18 @@ package com.example.musicapplication.allsong
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.musicapplication.database.DataSong
+import com.example.musicapplication.database.DataSongRepository
 import com.example.musicapplication.database.FavoriteSongDatabaseDao
+import kotlinx.coroutines.launch
 
 class AllSongViewModel(private val database: FavoriteSongDatabaseDao) : ViewModel() {
+
+    private val dataSongRepository = DataSongRepository()
+
+    val songs = dataSongRepository.getSongs()
+
     //get attributes data of song
     private val _songName = MutableLiveData<String?>()
     val songName: MutableLiveData<String?>
@@ -19,4 +28,17 @@ class AllSongViewModel(private val database: FavoriteSongDatabaseDao) : ViewMode
     val songPicture: MutableLiveData<Bitmap?>
         get() = _songPicture
 
+    private val _songDuration = MutableLiveData<Long?>()
+    val songDuration: MutableLiveData<Long?>
+        get() = _songDuration
+
+    //Refresh data from the repository.
+    private fun refreshDataFromRepository(song: DataSong) {
+        viewModelScope.launch {
+            _songName.value = song.songName
+            _songArtist.value = song.artists
+        }
+    }
 }
+
+

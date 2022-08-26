@@ -7,18 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapplication.database.SongTable
 import com.example.musicapplication.databinding.ItemSongBinding
 
+
 class AllSongAdapter : RecyclerView.Adapter<AllSongAdapter.SongViewHolder>() {
 
-    //Thong bao thay doi du lieu cho RecyclerView
     var data = listOf<SongTable>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
-        val item = data[position]
+        val item = getItemId(position)
     }
 
     //khoi tao ViewHolder

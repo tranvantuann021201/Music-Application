@@ -11,6 +11,7 @@ import com.example.musicapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -27,6 +28,4 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.custom_menu, menu)
         return true
     }
-
-
 }
