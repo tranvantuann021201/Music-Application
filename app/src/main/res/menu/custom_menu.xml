@@ -6,18 +6,18 @@
         android:icon="@drawable/ic_search"
         android:title="@string/search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         />
     <item android:title="@string/title_item_allSong"
         android:id="@+id/item_allSong"
         android:icon="@drawable/stat_notify_musicplayer"
-        app:showAsAction="ifRoom"
+        app:showAsAction="collapseActionView"
         />
 
     <item android:title="@string/title_item_favoriteSong"
         android:id="@+id/item_favoriteSong"
         android:icon="@drawable/ic_family_24dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="collapseActionView"
         />
 
 </menu>

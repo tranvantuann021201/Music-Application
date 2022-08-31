@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.navigation.MediaPlayBackFragment">
+
+    <data>
+
+        <variable
+            name="mediaPlayBack"
+            type="com.example.musicapplication.mediaplayback.MediaPlayBackViewModel" />
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+        <include layout="@layout/all_song_fragment" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_launcher_background">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/nav_height"
+                android:layout_alignParentTop="true"
+                android:background="@color/bg_color_song_nav">
+
+                <ImageView
+                    android:id="@+id/img_Music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/stat_notify_musicplayer"
+                    app:imageBitmap="@{mediaPlayBack.songPicture}"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/song_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@{mediaPlayBack.songName}"
+                    android:textColor="#212121"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/song_artist"
+                    app:layout_constraintEnd_toStartOf="@+id/option_top_nav_music"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/img_Music"
+                    app:layout_constraintTop_toTopOf="@+id/img_Music"
+                    app:layout_constraintVertical_bias="0.615"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/song_artist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="@{mediaPlayBack.songArtist}"
+                    android:textColor="#212121"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_Music"
+                    app:layout_constraintEnd_toStartOf="@+id/option_top_nav_music"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/img_Music"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/icon_collect_song"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_queue_dark"
+                    app:layout_constraintBottom_toBottomOf="@+id/option_top_nav_music"
+                    app:layout_constraintEnd_toStartOf="@+id/option_top_nav_music"
+                    app:layout_constraintTop_toTopOf="@+id/option_top_nav_music"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/option_top_nav_music"
+                    android:layout_width="35dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/marginEnd_option_menu"
+                    android:src="@drawable/ic_menu_moreoverflow_card_dark_active"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="MissingConstraints" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/ic_repeat"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_above="@id/bottom_nav_song"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/ic_repeat_white" />
+
+            <ImageView
+                android:id="@+id/ic_random"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_above="@id/bottom_nav_song"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="20dp"
+                android:src="@drawable/ic_shuffle_white" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_nav_song"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="-2dp"
+                android:paddingBottom="8dp"
+                android:background="@color/bg_color_song_nav">
+
+                <SeekBar
+                    android:id="@+id/seak_media_play_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints"
+                    android:thumbTint="@color/mainColor"
+                    android:progressTint="@color/mainColor"/>
+
+                <ImageView
+                    android:id="@+id/ic_like_song"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="@dimen/ic_like_margin_start"
+                    android:src="@drawable/ic_thumbs_up_default"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seak_media_play_back"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/ic_previous_song"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_rew_dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/bg_play_pause_song"
+                    app:layout_constraintStart_toEndOf="@+id/ic_like_song"
+                    app:layout_constraintTop_toBottomOf="@id/seak_media_play_back"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/bg_play_pause_song"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_fab_play_btn_normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seak_media_play_back"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/ic_pause_song"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_play_overlay"
+                    app:layout_constraintBottom_toBottomOf="@+id/bg_play_pause_song"
+                    app:layout_constraintEnd_toEndOf="@+id/bg_play_pause_song"
+                    app:layout_constraintStart_toStartOf="@+id/bg_play_pause_song"
+                    app:layout_constraintTop_toTopOf="@+id/bg_play_pause_song"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/ic_next_song"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_fwd_dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/ic_dislike_song"
+                    app:layout_constraintStart_toEndOf="@+id/bg_play_pause_song"
+                    app:layout_constraintTop_toBottomOf="@id/seak_media_play_back"
+                    tools:ignore="MissingConstraints" />
+
+                <ImageView
+                    android:id="@+id/ic_dislike_song"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="@dimen/ic_dislike_margin_end"
+                    android:src="@drawable/ic_thumbs_up_default"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seak_media_play_back"
+                    tools:ignore="MissingConstraints" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+</layout>
