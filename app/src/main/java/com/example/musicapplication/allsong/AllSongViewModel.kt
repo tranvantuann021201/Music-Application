@@ -1,19 +1,19 @@
 package com.example.musicapplication.allsong
 
+import android.app.Application
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
-import com.example.musicapplication.database.FavoriteSongDatabaseDao
 import kotlinx.coroutines.launch
 
-class AllSongViewModel(private val database: FavoriteSongDatabaseDao) : ViewModel() {
+class AllSongViewModel(private val dataSource: Application) : ViewModel() {
 
     private val dataSongRepository = DataSongRepository()
 
-    val songs = dataSongRepository.getSongs()
+    val songs = dataSongRepository.getSongs(dataSource)
 
     //get attributes data of song
     private val _songName = MutableLiveData<String?>()

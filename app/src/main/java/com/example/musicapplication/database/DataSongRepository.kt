@@ -1,15 +1,13 @@
 package com.example.musicapplication.database
 
-import android.widget.TextView
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.RecyclerView
 
 class DataSongRepository {
     private val getMusicDataFormDeviceStorage = GetMusicDataFormDeviceStorage()
-    fun getSongs(): MutableLiveData<List<DataSong>> {
-        return getMusicDataFormDeviceStorage.getSong()
+    fun getSongs(context: Context): MutableLiveData<List<DataSong>> {
+        return getMusicDataFormDeviceStorage.getSong(context)
     }
 }
 
 
-class TextItemViewHolder(val textView: TextView): RecyclerView.ViewHolder(textView)

@@ -1,16 +1,16 @@
 package com.example.musicapplication.database
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.MutableLiveData
-import com.example.musicapplication.MainActivity
 
 class GetMusicDataFormDeviceStorage {
 
     @SuppressLint("Recycle")
-    fun getSong(): MutableLiveData<List<DataSong>> {
+    fun getSong(context: Context): MutableLiveData<List<DataSong>> {
         val uri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0"
         val projection = arrayOf(
@@ -30,7 +30,7 @@ class GetMusicDataFormDeviceStorage {
         val songs: ArrayList<DataSong> = ArrayList()
 
         val cursor: Cursor? =
-            MainActivity().contentResolver.query(uri, projection, selection, null, sortOder)
+            context.contentResolver.query(uri, projection, selection, null, sortOder)
 
         if (cursor != null && cursor.moveToFirst()) {
             while (!cursor.isAfterLast) {

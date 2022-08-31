@@ -43,7 +43,7 @@
             android:textSize="@dimen/txt_size_song_name" />
 
         <TextView
-            android:id="@+id/song_time"
+            android:id="@+id/song_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/song_name"
