@@ -37,7 +37,7 @@ class GetMusicDataFormDeviceStorage {
 
                 //songs.add(mCursor.getString(mCursor.getColumnIndex(dbAdapter.KEY_NAME))); //add the item
                 val song = DataSong(
-                    cursor.getInt(7),
+                    cursor.getLong(7),
                     cursor.getString(0),
                     cursor.getString(5),
                     cursor.getString(1),

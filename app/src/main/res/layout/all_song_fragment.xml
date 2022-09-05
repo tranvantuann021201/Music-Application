@@ -16,24 +16,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolBar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="@color/mainColor"-->
-<!--            android:minHeight="?attr/actionBarSize"-->
-<!--            android:theme="?attr/actionBarTheme"-->
-<!--            android:visibility="visible"-->
-<!--            app:title="@string/titleAppBar"-->
-<!--            tools:ignore="MissingConstraints">-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mainColor"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            android:visibility="visible"
+            app:title="@string/titleAppBar"
+            tools:ignore="MissingConstraints">
 
-<!--            <ImageView-->
-<!--                android:layout_width="25dp"-->
-<!--                android:layout_height="25sp"-->
-<!--                android:layout_gravity="end"-->
-<!--                android:layout_marginEnd="10dp"-->
-<!--                android:src="@drawable/ic_search_white" />-->
-<!--        </androidx.appcompat.widget.Toolbar>-->
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25sp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_search_white" />
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_nav_song"
@@ -102,8 +102,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_nav_song"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_below="@id/toolBar" />
 
-        <!-- android:layout_below="@id/toolBar" -->
+
     </RelativeLayout>
 </layout>

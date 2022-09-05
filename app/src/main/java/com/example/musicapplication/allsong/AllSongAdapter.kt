@@ -38,15 +38,15 @@ class AllSongAdapter : RecyclerView.Adapter<AllSongAdapter.ViewHolder>() {
         val songIndex: TextView = itemView.findViewById(R.id.song_index)
 
         fun bind(item: DataSong) {
+            val res = itemView.context.resources
             songName.text = item.songName
             duration.text = item.duration.toString()
         //  duration.text = dataSong.duration.toString()
         }
     }
-
-
 }
 
 class TextItemViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView) {
 }
+
 

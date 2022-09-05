@@ -1,7 +1,7 @@
 package com.example.musicapplication.database
 
 data class DataSong(
-    var songID: Int?,
+    var songID: Long?,
     var songName: String?,
     var albumName: String?,
     var artists: String?,

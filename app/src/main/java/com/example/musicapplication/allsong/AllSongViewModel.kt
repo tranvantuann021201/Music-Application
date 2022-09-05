@@ -13,7 +13,7 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
 
     private val dataSongRepository = DataSongRepository()
 
-    val songs = dataSongRepository.getSongs(dataSource)
+    public val songs = dataSongRepository.getSongs(dataSource)
 
     //get attributes data of song
     private val _songName = MutableLiveData<String?>()
