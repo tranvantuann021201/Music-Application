@@ -9,7 +9,7 @@ class AllSongViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AllSongViewModel::class.java)) {
-            return AllSongViewModel(database) as T
+            return AllSongViewModel(database,) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

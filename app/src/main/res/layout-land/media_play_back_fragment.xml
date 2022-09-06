@@ -9,6 +9,9 @@
         <variable
             name="mediaPlayBack"
             type="com.example.musicapplication.mediaplayback.MediaPlayBackViewModel" />
+        <variable
+            name="allSongViewModel"
+            type="com.example.musicapplication.allsong.AllSongViewModel" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"
@@ -18,14 +21,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2">
+        android:layout_weight="7">
         <include layout="@layout/all_song_fragment" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="4">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

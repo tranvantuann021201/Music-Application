@@ -36,12 +36,13 @@ class GetMusicDataFormDeviceStorage {
             while (!cursor.isAfterLast) {
 
                 //songs.add(mCursor.getString(mCursor.getColumnIndex(dbAdapter.KEY_NAME))); //add the item
+
                 val song = DataSong(
                     cursor.getLong(7),
                     cursor.getString(0),
                     cursor.getString(5),
                     cursor.getString(1),
-                    cursor.getLong(5),
+                    cursor.getLong(4),
                     cursor.getString(2)
                     )
 

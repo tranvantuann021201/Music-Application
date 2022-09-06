@@ -5,9 +5,22 @@
     <string name="song_artist">Song Artist</string>
     <string name="song_index">1</string>
     <string name="search">Search</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="song_time">00:00</string>
     <string name="title_item_allSong">Tất cả bài hát</string>
     <string name="title_item_favoriteSong">Bài hát yêu thích</string>
+
+    <!-- Toast to play after Clear button has been pressed -->
+    <string name="minutes_length">%d minutes on %s</string>
+    <string name="hours_length">%d hours on %s</string>
+    <string name="seconds_length">%d seconds on %s</string>
+
+    <!-- Output to TextView styled with a little HTML -->
+    <string name="title"><![CDATA[<h3>HERE IS YOUR SLEEP DATA</h3>]]></string>
+    <string name="start_time"><![CDATA[<b>Start:</b>]]></string>
+    <string name="end_time"><![CDATA[<b>End:</b>]]></string>
+    <string name="quality"><![CDATA[<b>Quality:</b>]]></string>
+    <string name="hours_slept"><![CDATA[<b>Hours:Minutes:Seconds</b>]]></string>
 </resources>

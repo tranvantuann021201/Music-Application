@@ -41,7 +41,8 @@ class AllSongAdapter : RecyclerView.Adapter<AllSongAdapter.ViewHolder>() {
             val res = itemView.context.resources
             songName.text = item.songName
             duration.text = item.duration.toString()
-        //  duration.text = dataSong.duration.toString()
+            //duration.text = convertDurationToFormatted(item.duration, res)
+            songIndex.text =  ((position+1).toString())
         }
     }
 }

@@ -3,11 +3,14 @@ package com.example.musicapplication.allsong
 import android.app.Application
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
+import com.example.musicapplication.formatDuration
 import kotlinx.coroutines.launch
+
 
 class AllSongViewModel(private val dataSource: Application) : ViewModel() {
 
@@ -38,6 +41,13 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
             _songName.value = song.songName
             _songArtist.value = song.artists
         }
+    }
+
+    /**
+     * Converted nights to Spanned for displaying.
+     */
+    val durationString = Transformations.map(songs) { songs ->
+        formatDuration(songs, dataSource.resources)
     }
 }
 
