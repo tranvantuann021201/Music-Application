@@ -5,8 +5,11 @@ import com.example.musicapplication.convertDurationToFormatted
 import com.example.musicapplication.database.DataSong
 
 @androidx.databinding.BindingAdapter("sleepDurationFormatted")
-fun TextView.setSleepDurationFormatted(item: DataSong?) {
-    item?.let {
-        text = convertDurationToFormatted(item.duration!!, context.resources)
+fun TextView.setSleepDurationFormatted(songs: DataSong) {
+    songs?.let {
+        text = convertDurationToFormatted(songs.duration!!, context.resources)
     }
+//    songs?.forEach{
+//        text = formatDuration(it.duration, context.resources)
+//    }
 }

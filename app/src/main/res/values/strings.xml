@@ -13,9 +13,9 @@
     <string name="title_item_favoriteSong">Bài hát yêu thích</string>
 
     <!-- Toast to play after Clear button has been pressed -->
-    <string name="minutes_length">%d minutes on %s</string>
-    <string name="hours_length">%d hours on %s</string>
-    <string name="seconds_length">%d seconds on %s</string>
+    <string name="minutes_length">%d minutes</string>
+    <string name="hours_length">%d hours</string>
+    <string name="seconds_length">%d seconds</string>
 
     <!-- Output to TextView styled with a little HTML -->
     <string name="title"><![CDATA[<h3>HERE IS YOUR SLEEP DATA</h3>]]></string>

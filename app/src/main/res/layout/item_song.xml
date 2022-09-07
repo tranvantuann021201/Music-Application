@@ -28,8 +28,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:text="@string/song_index"
-            android:textSize="@dimen/txt_index_song_size"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textSize="@dimen/txt_index_song_size" />
 
         <TextView
             android:id="@+id/song_name"
@@ -54,7 +54,7 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/song_index"
-            android:text="@{allSongViewModel.songDuration.toString()}"
+            android:text="@{allSongViewModel.durationString}"
             android:textColor="#605C5C"
             android:textSize="@dimen/txt_size_song_artist"
             app:layout_constraintHorizontal_bias="0.0"
