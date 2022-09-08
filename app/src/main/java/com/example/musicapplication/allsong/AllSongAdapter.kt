@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapplication.R
-import com.example.musicapplication.convertDurationToFormatted
 import com.example.musicapplication.database.DataSong
+import com.example.musicapplication.formatDuration
 
 
 class AllSongAdapter : RecyclerView.Adapter<AllSongAdapter.ViewHolder>() {
@@ -41,7 +41,7 @@ class AllSongAdapter : RecyclerView.Adapter<AllSongAdapter.ViewHolder>() {
             val res = itemView.context.resources
             songName.text = item.songName
             //duration.text = item.duration.toString()
-            duration.text = convertDurationToFormatted(item.duration!!, res)
+            duration.text = formatDuration(item)
             songIndex.text =  ((position+1).toString())
         }
     }

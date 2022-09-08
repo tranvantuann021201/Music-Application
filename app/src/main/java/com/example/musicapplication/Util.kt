@@ -79,18 +79,18 @@ fun convertDurationToFormatted(durationMilli: Long, res: Resources): String {
  *           See: https://developer.android.com/reference/android/text/Spanned
  */
 
-fun formatDuration(songs: List<DataSong>, resources: Resources): Spanned {
+fun formatDuration(songs: DataSong): Spanned {
     val sb = StringBuilder()
-    sb.apply {
-        songs.forEach {
-            // Hours
-            append("\t ${it.duration!! / 1000 / 60 / 60}:")
-            // Minutes
-            append("${it.duration!! / 1000 / 60}:")
-            // Seconds
-            append("${it.duration!! / 1000}<br><br>")
-        }
 
+    //val secondsDuration: Double = (songs.duration!! / 1000).toDouble()
+
+    sb.apply {
+        // Hours
+        //append("\t ${songs.duration!! / 1000 / 60 / 60}:")
+        // Minutes
+        append("${songs.duration!! / 1000 / 60}:")
+        // Seconds
+        append("${songs.duration!! / 10000}<br><br>")
     }
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)
@@ -98,7 +98,6 @@ fun formatDuration(songs: List<DataSong>, resources: Resources): Spanned {
         HtmlCompat.fromHtml(sb.toString(), HtmlCompat.FROM_HTML_MODE_LEGACY)
     }
 }
-
 
 /**
  * ViewHolder that holds a single [TextView].

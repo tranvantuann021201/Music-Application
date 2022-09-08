@@ -47,7 +47,7 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
      * Converted nights to Spanned for displaying.
      */
     val durationString = Transformations.map(songs) { songs ->
-        formatDuration(songs, dataSource.resources)
+        formatDuration(songs[4])
     }
 }
 
