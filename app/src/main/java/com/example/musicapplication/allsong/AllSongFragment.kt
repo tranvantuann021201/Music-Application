@@ -1,5 +1,6 @@
 package com.example.musicapplication.allsong
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.musicapplication.PlaySongService
 import com.example.musicapplication.R
 import com.example.musicapplication.databinding.AllSongFragmentBinding
 
-class AllSongFragment : Fragment() {
+class AllSongFragment : Fragment(), View.OnClickListener {
     private lateinit var allSongsViewModel: AllSongViewModel
     lateinit var binding: AllSongFragmentBinding
     private val adapter = AllSongAdapter()
@@ -49,7 +51,20 @@ class AllSongFragment : Fragment() {
             adapter.data = newSongs
         })
 
+        binding.btnPlayPause.setOnClickListener(this)
+        binding.imgSearch.setOnClickListener(this)
+
         return binding.root
+    }
+
+    override fun onClick(v: View?) {
+        if(view === binding.btnPlayPause) {
+            requireActivity().startService(Intent(activity, PlaySongService::class.java))
+        }
+
+        if(view === binding.imgSearch) {
+            requireActivity().stopService(Intent(activity, PlaySongService::class.java))
+        }
     }
 }
 

@@ -28,6 +28,7 @@
             tools:ignore="MissingConstraints">
 
             <ImageView
+                android:id="@+id/imgSearch"
                 android:layout_width="25dp"
                 android:layout_height="25sp"
                 android:layout_gravity="end"
@@ -85,10 +86,11 @@
                 app:layout_constraintStart_toEndOf="@+id/img_Music"
                 tools:ignore="MissingConstraints" />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/btn_play_pause"
                 android:layout_width="@dimen/icon_width_common"
                 android:layout_height="@dimen/ic_height_common"
+                android:padding="5dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/ic_play_black_round"
                 app:layout_constraintBottom_toBottomOf="parent"
