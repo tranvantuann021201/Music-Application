@@ -18,6 +18,8 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
 
     public val songs = dataSongRepository.getSongs(dataSource)
 
+
+
     //get attributes data of song
     private val _songName = MutableLiveData<String?>()
     val songName: MutableLiveData<String?>
@@ -35,6 +37,17 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
     val songDuration: MutableLiveData<Long?>
         get() = _songDuration
 
+    /**
+     * Navigation for the SleepDetail fragment.
+     */
+    private val _navigateToSleepDetail = MutableLiveData<Long>()
+    val navigateToSleepDetail
+        get() = _navigateToSleepDetail
+
+    fun onSleepNightClicked(id: Long) {
+        _navigateToSleepDetail.value = id
+    }
+
     //Refresh data from the repository.
     private fun refreshDataFromRepository(song: DataSong) {
         viewModelScope.launch {
@@ -49,6 +62,7 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
     val durationString = Transformations.map(songs) { songs ->
         formatDuration(songs[4])
     }
+
 }
 
 

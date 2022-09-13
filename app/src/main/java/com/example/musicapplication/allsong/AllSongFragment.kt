@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -17,7 +18,10 @@ import com.example.musicapplication.databinding.AllSongFragmentBinding
 class AllSongFragment : Fragment(), View.OnClickListener {
     private lateinit var allSongsViewModel: AllSongViewModel
     lateinit var binding: AllSongFragmentBinding
-    private val adapter = AllSongAdapter()
+    private val adapter = AllSongAdapter(DataSongListener { songID ->
+        Toast.makeText(context, "$songID", Toast.LENGTH_SHORT).show()
+        allSongsViewModel.onSleepNightClicked(songID)
+    } )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,12 +61,13 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         return binding.root
     }
 
-    override fun onClick(v: View?) {
-        if(view === binding.btnPlayPause) {
+    override fun onClick(v: View) {
+        if(v === binding.btnPlayPause) {
             requireActivity().startService(Intent(activity, PlaySongService::class.java))
+            //context?.startService(Intent(context, PlaySongService::class.java))
         }
 
-        if(view === binding.imgSearch) {
+        if(v === binding.imgSearch) {
             requireActivity().stopService(Intent(activity, PlaySongService::class.java))
         }
     }

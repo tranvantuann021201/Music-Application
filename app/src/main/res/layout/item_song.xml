@@ -6,18 +6,21 @@
     <data>
 
         <variable
-            name="song"
-            type="com.example.musicapplication.database.SongTable" />
+            name="clickListener"
+            type="com.example.musicapplication.allsong.DataSongListener" />
 
         <variable
-            name="allSongViewModel"
-            type="com.example.musicapplication.allsong.AllSongViewModel" />
+            name="song"
+            type="com.example.musicapplication.database.DataSong" />
+
 
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp">
+        android:layout_height="55dp"
+        android:onClick="@{() -> clickListener.onClick(song)}"
+        >
 
         <TextView
             android:id="@+id/song_index"
@@ -39,7 +42,7 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="7dp"
             android:layout_toEndOf="@id/song_index"
-            android:text="@{allSongViewModel.songName}"
+            android:text="@{song.songName}"
             android:textColor="#212121"
             android:textSize="@dimen/txt_size_song_name"
             android:maxLength="25"
@@ -54,7 +57,7 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/song_index"
-            android:text="@{allSongViewModel.durationString}"
+            android:text="@{String.valueOf(song.duration)}"
             android:textColor="#605C5C"
             android:textSize="@dimen/txt_size_song_artist"
             app:layout_constraintHorizontal_bias="0.0"

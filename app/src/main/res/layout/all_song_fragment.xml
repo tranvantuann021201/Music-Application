@@ -90,9 +90,9 @@
                 android:id="@+id/btn_play_pause"
                 android:layout_width="@dimen/icon_width_common"
                 android:layout_height="@dimen/ic_height_common"
-                android:padding="5dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/ic_play_black_round"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -104,8 +104,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_nav_song"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_below="@id/toolBar" />
+            android:layout_below="@id/toolBar"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
 
     </RelativeLayout>
