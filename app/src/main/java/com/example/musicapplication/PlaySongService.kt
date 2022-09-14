@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
 
-class PlaySongService : Service() {
+class PlaySongService() : Service() {
 
     private val dataSongRepository = DataSongRepository()
     private val dataSong = MutableLiveData<List<DataSong>>()
@@ -33,6 +33,16 @@ class PlaySongService : Service() {
         super.onDestroy()
 
         player.stop()
+    }
+
+    fun playMusic(path: String) {
+        player?.let {
+            if(player.isPlaying){
+                player.stop()
+                player.setDataSource(path)
+                player.prepare()
+            }
+        }
     }
 
 

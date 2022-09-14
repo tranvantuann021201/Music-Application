@@ -29,8 +29,9 @@
 
             <ImageView
                 android:id="@+id/imgSearch"
-                android:layout_width="25dp"
-                android:layout_height="25sp"
+                android:layout_width="35dp"
+                android:layout_height="35sp"
+                android:padding="6dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/ic_search_white" />

@@ -82,8 +82,6 @@ fun convertDurationToFormatted(durationMilli: Long, res: Resources): String {
 fun formatDuration(songs: DataSong): Spanned {
     val sb = StringBuilder()
 
-    //val secondsDuration: Double = (songs.duration!! / 1000).toDouble()
-
     sb.apply {
         // Hours
         //append("\t ${songs.duration!! / 1000 / 60 / 60}:")
@@ -105,4 +103,3 @@ fun formatDuration(songs: DataSong): Spanned {
  * A ViewHolder holds a view for the [RecyclerView] as well as providing additional information
  * to the RecyclerView such as where on the screen it was last drawn during scrolling.
  */
-class TextItemViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)

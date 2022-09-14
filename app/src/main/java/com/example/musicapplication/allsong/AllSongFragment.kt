@@ -20,7 +20,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     lateinit var binding: AllSongFragmentBinding
     private val adapter = AllSongAdapter(DataSongListener { songID ->
         Toast.makeText(context, "$songID", Toast.LENGTH_SHORT).show()
-        allSongsViewModel.onSleepNightClicked(songID)
+        allSongsViewModel.onDataSongClicked(songID)
     } )
 
     override fun onCreateView(
@@ -57,6 +57,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         binding.btnPlayPause.setOnClickListener(this)
         binding.imgSearch.setOnClickListener(this)
+
 
         return binding.root
     }

@@ -33,9 +33,11 @@ class AllSongAdapter(val clickListener: DataSongListener) : RecyclerView.Adapter
         //val songIndex: TextView = itemView.findViewById(R.id.song_index)
 
         fun bind(item: DataSong, clickListener: DataSongListener) {
-            binding.song = item
-
-            binding.clickListener = clickListener
+              binding.song = item
+              //binding.songName.text = item.songName
+              //binding.songDuration.text = formatDuration(item)
+              binding.songIndex.text = (position+1).toString()
+              binding.clickListener = clickListener
         }
 
         companion object {
