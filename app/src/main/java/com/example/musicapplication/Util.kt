@@ -47,24 +47,6 @@ private val ONE_HOUR_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
  * @param endTimeMilli the end of the interval
  * @param res resources used to load formatted strings
  */
-@SuppressLint("StringFormatMatches")
-fun convertDurationToFormatted(durationMilli: Long, res: Resources): String {
-    return when {
-        durationMilli < ONE_MINUTE_MILLIS -> {
-            val seconds = TimeUnit.SECONDS.convert(durationMilli, TimeUnit.MILLISECONDS)
-            res.getString(R.string.seconds_length, seconds)
-        }
-        durationMilli < ONE_HOUR_MILLIS -> {
-            val minutes = TimeUnit.MINUTES.convert(durationMilli, TimeUnit.MILLISECONDS)
-            res.getString(R.string.minutes_length, minutes)
-        }
-        else -> {
-            val hours = TimeUnit.HOURS.convert(durationMilli, TimeUnit.MILLISECONDS)
-            res.getString(R.string.hours_length, hours)
-        }
-    }
-}
-
 /**
  * Takes a list of SleepNights and converts and formats it into one string for display.
  *

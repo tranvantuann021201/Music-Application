@@ -1,5 +1,6 @@
 package com.example.musicapplication.allsong
 
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,9 +14,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapplication.PlaySongService
 import com.example.musicapplication.R
+import com.example.musicapplication.database.DataSongRepository
 import com.example.musicapplication.databinding.AllSongFragmentBinding
 
-class AllSongFragment : Fragment(), View.OnClickListener {
+class AllSongFragment(private val dataSource: Application) : Fragment(), View.OnClickListener {
+
+    private val dataSongRepository = DataSongRepository()
+
+    public val songs = dataSongRepository.getSongs(dataSource)
+
     private lateinit var allSongsViewModel: AllSongViewModel
     lateinit var binding: AllSongFragmentBinding
     private val adapter = AllSongAdapter(DataSongListener { songID ->

@@ -3,6 +3,7 @@ package com.example.musicapplication
 import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.IBinder
 import android.provider.Settings
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +21,6 @@ class PlaySongService() : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        player = MediaPlayer.create(applicationContext, Settings.System.DEFAULT_RINGTONE_URI)
 
         player.isLooping = true
 
@@ -39,13 +39,10 @@ class PlaySongService() : Service() {
         player?.let {
             if(player.isPlaying){
                 player.stop()
-                player.setDataSource(path)
-                player.prepare()
             }
+            player = MediaPlayer.create(applicationContext, Uri.parse(path))
         }
     }
-
-
 
     override fun onBind(intent: Intent): IBinder? {
         return null

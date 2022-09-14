@@ -45,6 +45,7 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
 
     fun onDataSongClicked(id: Long) {
         _songClicked.value = id
+
     }
 
     //Refresh data from the repository.
@@ -54,6 +55,8 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
             _songArtist.value = song.artists
         }
     }
+
+
 
     /**
      * Converted nights to Spanned for displaying.
