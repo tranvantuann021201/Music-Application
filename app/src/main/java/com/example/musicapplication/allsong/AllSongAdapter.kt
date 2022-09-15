@@ -50,7 +50,7 @@ class AllSongAdapter(val clickListener: DataSongListener) : RecyclerView.Adapter
     }
 }
 
-class DataSongListener(var clickListener: (song: Long) -> Unit) {
-    fun onClick(songs: DataSong) = clickListener(songs.songID!!)
+class DataSongListener(var clickListener: (song: String) -> Unit) {
+    fun onClick(songs: DataSong) = clickListener(songs.data!!)
 }
 

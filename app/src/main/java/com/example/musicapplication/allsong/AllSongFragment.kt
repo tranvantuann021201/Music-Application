@@ -1,8 +1,11 @@
 package com.example.musicapplication.allsong
 
-import android.app.Application
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,21 +17,37 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapplication.PlaySongService
 import com.example.musicapplication.R
-import com.example.musicapplication.database.DataSongRepository
 import com.example.musicapplication.databinding.AllSongFragmentBinding
 
-class AllSongFragment(private val dataSource: Application) : Fragment(), View.OnClickListener {
-
-    private val dataSongRepository = DataSongRepository()
-
-    public val songs = dataSongRepository.getSongs(dataSource)
+class AllSongFragment : Fragment(), View.OnClickListener {
 
     private lateinit var allSongsViewModel: AllSongViewModel
     lateinit var binding: AllSongFragmentBinding
-    private val adapter = AllSongAdapter(DataSongListener { songID ->
-        Toast.makeText(context, "$songID", Toast.LENGTH_SHORT).show()
-        allSongsViewModel.onDataSongClicked(songID)
-    } )
+    private lateinit var mService: PlaySongService
+    private var mBound: Boolean = false
+
+    private val adapter = AllSongAdapter(DataSongListener { data ->
+        Toast.makeText(context, "$data", Toast.LENGTH_SHORT).show()
+        if (mBound) {
+            mService.playMusic(data)
+        }
+        allSongsViewModel.onDataSongClicked(data)
+    })
+
+    /** Defines callbacks for service binding, passed to bindService()  */
+    private val connection = object : ServiceConnection {
+
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            val binder = service as PlaySongService.LocalBinder
+            mService = binder.getService()
+            mBound = true
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            mBound = false
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +69,12 @@ class AllSongFragment(private val dataSource: Application) : Fragment(), View.On
         // Get a reference to the ViewModel associated with this fragment.
         allSongsViewModel =
             ViewModelProvider(
-                this,viewModelFactory).get(AllSongViewModel::class.java)
+                this, viewModelFactory
+            ).get(AllSongViewModel::class.java)
 
         binding.listSong.adapter = adapter
 
-        binding.bottomNavSong.setOnClickListener {view: View ->
+        binding.bottomNavSong.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_allSongFragment_to_mediaPlayBackFragment)
         }
 
@@ -69,14 +89,25 @@ class AllSongFragment(private val dataSource: Application) : Fragment(), View.On
         return binding.root
     }
 
-    override fun onClick(v: View) {
-        if(v === binding.btnPlayPause) {
-            requireActivity().startService(Intent(activity, PlaySongService::class.java))
-            //context?.startService(Intent(context, PlaySongService::class.java))
-        }
+    override fun onStart() {
+        super.onStart()
+        // Bind to LocalService
+        requireActivity().bindService(
+            Intent(requireActivity(), PlaySongService::class.java),
+            connection,
+            Context.BIND_AUTO_CREATE
+        )
+    }
 
-        if(v === binding.imgSearch) {
-            requireActivity().stopService(Intent(activity, PlaySongService::class.java))
+    override fun onStop() {
+        super.onStop()
+        mBound = false
+    }
+
+    override fun onClick(v: View) {
+        if (v.id == R.id.btn_play_pause) {
+            mService.stopMusic()
+            binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
         }
     }
 }

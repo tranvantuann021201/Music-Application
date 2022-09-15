@@ -39,11 +39,11 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
     /**
      * Navigation for the SleepDetail fragment.
      */
-    private val _songClicked = MutableLiveData<Long>()
+    private val _songClicked = MutableLiveData<String>()
     val songClicked
         get() = _songClicked
 
-    fun onDataSongClicked(id: Long) {
+    fun onDataSongClicked(id: String) {
         _songClicked.value = id
 
     }
