@@ -47,8 +47,15 @@ class PlaySongService() : Service() {
         }
     }
 
-    fun stopMusic() {
-        player.stop()
+    fun playAndPauseMusic() {
+        if (player.isPlaying) {
+            player.pause()
+        } else
+            player.start()
+    }
+
+    fun getStatusMusic(): Boolean {
+        return player.isPlaying
     }
 
     /**

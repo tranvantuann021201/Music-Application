@@ -44,7 +44,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
             android:background="@color/bg_color_song_nav"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/img_Music"
@@ -92,7 +92,7 @@
                 android:layout_width="@dimen/icon_width_common"
                 android:layout_height="@dimen/ic_height_common"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/ic_pause_black_large"
+                android:background="@drawable/ic_play_black_round"
                 android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

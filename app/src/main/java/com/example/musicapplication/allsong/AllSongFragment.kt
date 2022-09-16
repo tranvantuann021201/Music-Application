@@ -9,7 +9,6 @@ import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,7 +26,8 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private var mBound: Boolean = false
 
     private val adapter = AllSongAdapter(DataSongListener { data ->
-        Toast.makeText(context, "$data", Toast.LENGTH_SHORT).show()
+        binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+        binding.bottomNavSong.visibility = View.VISIBLE
         if (mBound) {
             mService.playMusic(data)
         }
@@ -83,7 +83,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         })
 
         binding.btnPlayPause.setOnClickListener(this)
-        binding.imgSearch.setOnClickListener(this)
 
 
         return binding.root
@@ -106,8 +105,13 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         if (v.id == R.id.btn_play_pause) {
-            mService.stopMusic()
-            binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
+            if (mService.getStatusMusic()){
+                binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
+            }
+            else{
+                binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+            }
+            mService.playAndPauseMusic()
         }
     }
 }

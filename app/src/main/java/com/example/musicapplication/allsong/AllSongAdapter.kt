@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.databinding.ItemSongBinding
+import com.example.musicapplication.formatDuration
 
 
-class AllSongAdapter(val clickListener: DataSongListener) : RecyclerView.Adapter<AllSongAdapter.ViewHolder>() {
+class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView.Adapter<AllSongAdapter.ViewHolder>() {
     var data = listOf<DataSong>()
         set(value) {
             field = value
@@ -34,8 +35,7 @@ class AllSongAdapter(val clickListener: DataSongListener) : RecyclerView.Adapter
 
         fun bind(item: DataSong, clickListener: DataSongListener) {
               binding.song = item
-              //binding.songName.text = item.songName
-              //binding.songDuration.text = formatDuration(item)
+              binding.songDuration.text = formatDuration(item).toString()
               binding.songIndex.text = (position+1).toString()
               binding.clickListener = clickListener
         }

@@ -59,7 +59,6 @@
             android:layout_marginStart="19dp"
             android:layout_marginTop="1dp"
             android:layout_toEndOf="@id/song_index"
-            android:text="@{allSongViewModel.durationString}"
             android:textColor="#605C5C"
             android:textSize="@dimen/txt_size_song_artist"
             app:layout_constraintHorizontal_bias="0.0"

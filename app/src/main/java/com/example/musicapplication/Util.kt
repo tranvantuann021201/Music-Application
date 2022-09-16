@@ -16,8 +16,6 @@
 
 package com.example.musicapplication
 
-import android.annotation.SuppressLint
-import android.content.res.Resources
 import android.os.Build
 import android.text.Html
 import android.text.Spanned
@@ -70,7 +68,7 @@ fun formatDuration(songs: DataSong): Spanned {
         // Minutes
         append("${songs.duration!! / 1000 / 60}:")
         // Seconds
-        append("${songs.duration!! / 10000}<br><br>")
+        append("${songs.duration!! / 10000}")
     }
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_LEGACY)

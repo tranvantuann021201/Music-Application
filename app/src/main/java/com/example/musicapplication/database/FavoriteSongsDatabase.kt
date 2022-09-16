@@ -5,9 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-/**
- * Created by Bkav HuyNgQe on 16/06/2022.
- */
+
 @Database(entities = [SongTable::class], version = 1, exportSchema = false)
 abstract class FavoriteSongsDatabase: RoomDatabase() {
       abstract val favoriteSongsDatabaseDAO: FavoriteSongDatabaseDao
