@@ -12,6 +12,8 @@
         <entry key="app/src/main/res/layout/item_song.xml" value="0.25" />
         <entry key="app/src/main/res/layout/items_song.xml" value="0.3177083333333333" />
         <entry key="app/src/main/res/layout/media_play_back_fragment.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/tuantvb.xml" value="0.31875" />
+        <entry key="app/src/main/res/layout/tuantvb1.xml" value="0.3177083333333333" />
         <entry key="app/src/main/res/menu/custom_menu.xml" value="0.3015625" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.3215" />
       </map>

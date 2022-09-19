@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.musicapplication.allsong.AllSongFragment
 import com.example.musicapplication.databinding.ActivityMainBinding
 
 
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         val navController = this.findNavController(R.id.myNavHostFragment)
 
         NavigationUI.setupActionBarWithNavController(this, navController)
+
 
     }
 

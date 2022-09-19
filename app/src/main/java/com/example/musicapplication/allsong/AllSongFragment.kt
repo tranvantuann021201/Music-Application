@@ -26,10 +26,12 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private var mBound: Boolean = false
 
     private val adapter = AllSongAdapter(DataSongListener { data ->
-        binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
         binding.bottomNavSong.visibility = View.VISIBLE
+        binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+
         if (mBound) {
             mService.playMusic(data)
+            allSongsViewModel.isPlayedMusic = true
         }
         allSongsViewModel.onDataSongClicked(data)
     })
@@ -70,7 +72,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         allSongsViewModel =
             ViewModelProvider(
                 this, viewModelFactory
-            ).get(AllSongViewModel::class.java)
+            )[AllSongViewModel::class.java]
 
         binding.listSong.adapter = adapter
 
@@ -84,7 +86,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         binding.btnPlayPause.setOnClickListener(this)
 
-
         return binding.root
     }
 
@@ -96,11 +97,18 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             connection,
             Context.BIND_AUTO_CREATE
         )
+        saveStatusBottomNav()
     }
 
     override fun onStop() {
         super.onStop()
+        //requireActivity().unbindService(connection)
         mBound = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        allSongsViewModel.isPlayMusic = mService.getStatusMusic()
     }
 
     override fun onClick(v: View) {
@@ -111,7 +119,23 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             else{
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             }
+            /* Bkav TuanTVb: Play/pause nhạc */
             mService.playAndPauseMusic()
+        }
+    }
+
+    /**
+     * Bkav TuanTVb:
+     * Hiển thị thanh điều khiển nhạc và set ảnh hiển thị của button Play/pause
+     */
+    private fun saveStatusBottomNav() {
+        if(allSongsViewModel.isPlayedMusic) {
+            binding.bottomNavSong.visibility = View.VISIBLE
+            if(allSongsViewModel.isPlayMusic){
+                binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+            }else{
+                binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
+            }
         }
     }
 }

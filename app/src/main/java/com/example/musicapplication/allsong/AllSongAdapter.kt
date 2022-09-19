@@ -37,6 +37,7 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
               binding.song = item
               binding.songDuration.text = formatDuration(item).toString()
               binding.songIndex.text = (position+1).toString()
+
               binding.clickListener = clickListener
         }
 
