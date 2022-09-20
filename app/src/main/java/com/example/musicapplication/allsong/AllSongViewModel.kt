@@ -4,10 +4,7 @@ import android.app.Application
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
-import kotlinx.coroutines.launch
 
 
 class AllSongViewModel(private val dataSource: Application) : ViewModel() {
@@ -45,12 +42,9 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
 
     }
 
-    //Refresh data from the repository.
-    private fun refreshDataFromRepository(song: DataSong) {
-        viewModelScope.launch {
-            _songName.value = song.songName
-            _songArtist.value = song.artists
-        }
+    fun updateBottomNav() {
+        _songArtist.value = songs.value?.get(3).toString()
+        _songName.value = songs.value?.get(1).toString()
     }
 }
 

@@ -35,9 +35,9 @@
                 android:id="@+id/imgSearch"
                 android:layout_width="35dp"
                 android:layout_height="35sp"
+                android:padding="6dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="10dp"
-                android:padding="6dp"
                 android:src="@drawable/ic_search_white" />
         </androidx.appcompat.widget.Toolbar>
 
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{song.songName}"
+                android:text="@{allSongViewModel.songName}"
                 android:textColor="#212121"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="8dp"
-                android:text="@{song.artists}"
+                android:text="@{allSongViewModel.songArtist}"
                 android:textColor="#212121"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_Music"

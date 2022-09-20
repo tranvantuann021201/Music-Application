@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private val adapter = AllSongAdapter(DataSongListener { data ->
         binding.bottomNavSong.visibility = View.VISIBLE
         binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
-
+        allSongsViewModel.updateBottomNav()
         if (mBound) {
             mService.playMusic(data)
             allSongsViewModel.isPlayedMusic = true
@@ -97,13 +98,24 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             connection,
             Context.BIND_AUTO_CREATE
         )
+        /* Bkav TuanTVb: Hiển thị bottomNavSong đúng trạng thái*/
+        allSongsViewModel.isPlayMusic = true
         saveStatusBottomNav()
+        Log.i("TitleFragment", "onStart called")
+
+        allSongsViewModel.updateBottomNav()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("TitleFragment", "onResume called")
     }
 
     override fun onStop() {
         super.onStop()
         //requireActivity().unbindService(connection)
         mBound = false
+        Log.i("TitleFragment", "onStop called")
     }
 
     override fun onDestroy() {
@@ -119,21 +131,16 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             else{
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             }
-            /* Bkav TuanTVb: Play/pause nhạc */
             mService.playAndPauseMusic()
         }
     }
 
-    /**
-     * Bkav TuanTVb:
-     * Hiển thị thanh điều khiển nhạc và set ảnh hiển thị của button Play/pause
-     */
     private fun saveStatusBottomNav() {
-        if(allSongsViewModel.isPlayedMusic) {
+        if (allSongsViewModel.isPlayedMusic) {
             binding.bottomNavSong.visibility = View.VISIBLE
-            if(allSongsViewModel.isPlayMusic){
+            if (allSongsViewModel.isPlayMusic) {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
-            }else{
+            } else {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
             }
         }

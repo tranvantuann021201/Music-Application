@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by Bkav TuanTVb .-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_music_small"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:background="@color/mainColor"/>
+
+    <TextView
+        android:id="@+id/txv_name_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên bài hát"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_toEndOf="@+id/img_music_small"
+        android:layout_marginTop="13dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nghệ sĩ"
+        android:layout_below="@+id/txv_name_song"
+        android:layout_toEndOf="@+id/img_music_small"
+        android:layout_marginTop="2dp"
+        />
+</RelativeLayout>
