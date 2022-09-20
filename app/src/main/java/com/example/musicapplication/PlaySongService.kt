@@ -1,14 +1,31 @@
 package com.example.musicapplication
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.IBinder
+import android.transition.TransitionInflater.from
+import android.view.LayoutInflater.from
+import android.widget.RemoteViews
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.NotificationManagerCompat.from
+import androidx.core.content.getSystemService
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat.from
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider.Factory.Companion.from
+import com.example.musicapplication.allsong.AllSongAdapter.ViewHolder.Companion.from
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
+import java.nio.file.attribute.AclEntry
+import java.util.*
 
 class PlaySongService() : Service() {
 
@@ -19,8 +36,25 @@ class PlaySongService() : Service() {
     // Binder given to clients
     private val binder = LocalBinder()
 
+    // Get the layouts to use in the custom notification
+    private val notificationLayout = RemoteViews(packageName, R.layout.music_notification)
+
     companion object {
+        const val CHANEL_ID = "chanelID"
+        const val CHANEL_NAME = "chanelName"
+        const val NOTIF_ID = 0
     }
+
+    val notifManager = NotificationManagerCompat.from(this)
+
+    // Apply the layouts to the notification
+    val customNotification = NotificationCompat.Builder(applicationContext, CHANEL_ID)
+        .setContentText("CntText Thử hiện lên cái")
+        .setContentTitle("CntTitble Xem nó như nào")
+        .setSmallIcon(R.drawable.stat_notify_musicplayer)
+        .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+        .setCustomContentView(notificationLayout)
+        .build()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
@@ -71,4 +105,16 @@ class PlaySongService() : Service() {
         player = MediaPlayer()
         return binder
     }
+
+    fun createNotifChanel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val chanel = NotificationChannel(CHANEL_ID, CHANEL_NAME,NotificationManager.IMPORTANCE_DEFAULT).apply {
+                lightColor = Color.LTGRAY
+                enableLights(true)
+            }
+            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(chanel)
+        }
+    }
+
 }

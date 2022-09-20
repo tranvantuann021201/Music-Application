@@ -1,5 +1,8 @@
 package com.example.musicapplication.allsong
 
+import android.app.ActivityManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -25,10 +28,18 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     lateinit var binding: AllSongFragmentBinding
     private lateinit var mService: PlaySongService
     private var mBound: Boolean = false
+    val intent = Intent(this.context, PlaySongService::class.java)
+    val pendingIntent = TaskStackBuilder.create(this.context).run {
+        addNextIntentWithParentStack(intent)
+        getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT)
+    }
+
 
     private val adapter = AllSongAdapter(DataSongListener { data ->
         binding.bottomNavSong.visibility = View.VISIBLE
         binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+        mService.notifManager.notify(0,mService.customNotification)
+
         allSongsViewModel.updateBottomNav()
         if (mBound) {
             mService.playMusic(data)
@@ -86,6 +97,9 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         })
 
         binding.btnPlayPause.setOnClickListener(this)
+
+
+        mService.createNotifChanel()
 
         return binding.root
     }
