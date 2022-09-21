@@ -41,11 +41,6 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
         _songClicked.value = id
 
     }
-
-    fun updateBottomNav() {
-        _songArtist.value = songs.value?.get(3).toString()
-        _songName.value = songs.value?.get(1).toString()
-    }
 }
 
 

@@ -1,8 +1,5 @@
 package com.example.musicapplication.allsong
 
-import android.app.ActivityManager
-import android.app.PendingIntent
-import android.app.TaskStackBuilder
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -28,19 +25,13 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     lateinit var binding: AllSongFragmentBinding
     private lateinit var mService: PlaySongService
     private var mBound: Boolean = false
-    val intent = Intent(this.context, PlaySongService::class.java)
-    val pendingIntent = TaskStackBuilder.create(this.context).run {
-        addNextIntentWithParentStack(intent)
-        getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT)
-    }
+
 
 
     private val adapter = AllSongAdapter(DataSongListener { data ->
         binding.bottomNavSong.visibility = View.VISIBLE
         binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
-        mService.notifManager.notify(0,mService.customNotification)
 
-        allSongsViewModel.updateBottomNav()
         if (mBound) {
             mService.playMusic(data)
             allSongsViewModel.isPlayedMusic = true
@@ -78,7 +69,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         val application = requireNotNull(this.activity).application
 
-        //val viewModelFactory = AllSongViewModelFactory(application)
         val viewModelFactory = AllSongViewModelFactory(application)
         // Get a reference to the ViewModel associated with this fragment.
         allSongsViewModel =
@@ -98,14 +88,16 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         binding.btnPlayPause.setOnClickListener(this)
 
-
-        mService.createNotifChanel()
-
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
+
+        requireActivity().startService(
+            Intent(requireActivity(), PlaySongService::class.java)
+        )
+
         // Bind to LocalService
         requireActivity().bindService(
             Intent(requireActivity(), PlaySongService::class.java),
@@ -117,7 +109,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         saveStatusBottomNav()
         Log.i("TitleFragment", "onStart called")
 
-        allSongsViewModel.updateBottomNav()
     }
 
     override fun onResume() {
@@ -135,6 +126,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         allSongsViewModel.isPlayMusic = mService.getStatusMusic()
+        Log.i("TitleFragment", "onDestroy called")
     }
 
     override fun onClick(v: View) {
