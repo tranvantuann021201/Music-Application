@@ -29,10 +29,6 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
 
     class ViewHolder constructor(val binding: ItemSongBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        //val songName: TextView = itemView.findViewById(R.id.song_name)
-        //val duration: TextView = itemView.findViewById(R.id.song_duration)
-        //val songIndex: TextView = itemView.findViewById(R.id.song_index)
-
         fun bind(item: DataSong, clickListener: DataSongListener) {
               binding.song = item
               binding.songDuration.text = formatDuration(item).toString()
@@ -51,7 +47,7 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
     }
 }
 
-class DataSongListener(var clickListener: (song: String) -> Unit) {
-    fun onClick(songs: DataSong) = clickListener(songs.data!!)
+class DataSongListener(var clickListener: (song: DataSong) -> Unit) {
+    fun onClick(songs: DataSong) = clickListener(songs)
 }
 

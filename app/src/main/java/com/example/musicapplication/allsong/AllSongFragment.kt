@@ -27,23 +27,30 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private var mBound: Boolean = false
 
 
+    private val adapter = AllSongAdapter(
 
-    private val adapter = AllSongAdapter(DataSongListener { data ->
-        binding.bottomNavSong.visibility = View.VISIBLE
-        binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+        /**
+         * Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc
+         */
+        DataSongListener { data ->
+            binding.bgGradient.visibility = View.VISIBLE
+            binding.bottomNavSong.visibility = View.VISIBLE
+            binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
 
-        if (mBound) {
-            mService.playMusic(data)
-            allSongsViewModel.isPlayedMusic = true
-        }
-        allSongsViewModel.onDataSongClicked(data)
-    })
+            if (mBound) {
+                mService.playMusic(data.data!!)
+                allSongsViewModel.isPlayedMusic = true
+            }
+            allSongsViewModel.onDataSongClicked(data.data!!)
+            allSongsViewModel.setSongIsPlaying(data)
+        })
 
     /** Defines callbacks for service binding, passed to bindService()  */
     private val connection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            /* Bkav TuanTVb: Liên kết với LocalService,
+            truyền IBinder và lấy phiên bản LocalService*/
             val binder = service as PlaySongService.LocalBinder
             mService = binder.getService()
             mBound = true
@@ -59,8 +66,8 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(
+        /* Bkav TuanTVb: Inflate all_song_fragment layout*/
+        binding = DataBindingUtil.inflate<AllSongFragmentBinding?>(
             inflater,
             R.layout.all_song_fragment,
             container,
@@ -70,7 +77,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         val application = requireNotNull(this.activity).application
 
         val viewModelFactory = AllSongViewModelFactory(application)
-        // Get a reference to the ViewModel associated with this fragment.
+        /* Bkav TuanTVb: Tham chiếu allSongViewModel đến AllSongFragment*/
         allSongsViewModel =
             ViewModelProvider(
                 this, viewModelFactory
@@ -82,6 +89,10 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             view.findNavController().navigate(R.id.action_allSongFragment_to_mediaPlayBackFragment)
         }
 
+        binding.allSongViewModel = allSongsViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        /* Bkav TuanTVb: Đưa dữ liệu từ adapter vào RecyclerView*/
         allSongsViewModel.songs.observe(viewLifecycleOwner, Observer { newSongs ->
             adapter.data = newSongs
         })
@@ -94,16 +105,18 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
 
+        /* Bkav TuanTVb: Gọi startService, onStartCommand chứa hàm hiển thị notification*/
         requireActivity().startService(
             Intent(requireActivity(), PlaySongService::class.java)
         )
 
-        // Bind to LocalService
+        /* Bkav TuanTVb: Liên kết client với service*/
         requireActivity().bindService(
             Intent(requireActivity(), PlaySongService::class.java),
             connection,
             Context.BIND_AUTO_CREATE
         )
+
         /* Bkav TuanTVb: Hiển thị bottomNavSong đúng trạng thái*/
         allSongsViewModel.isPlayMusic = true
         saveStatusBottomNav()
@@ -129,21 +142,27 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         Log.i("TitleFragment", "onDestroy called")
     }
 
+    /**
+     * Bkav TuanTVb: Xử lý sự kiện click khi người dùng ấn vào bntPlayPause
+     */
     override fun onClick(v: View) {
         if (v.id == R.id.btn_play_pause) {
-            if (mService.getStatusMusic()){
+            if (mService.getStatusMusic()) {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
-            }
-            else{
+            } else {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             }
             mService.playAndPauseMusic()
         }
     }
 
+    /**
+     * Bkav TuanTVb: Giữ nguyên trạng thái của btnPlayPause khi xoay màn hình
+     */
     private fun saveStatusBottomNav() {
         if (allSongsViewModel.isPlayedMusic) {
             binding.bottomNavSong.visibility = View.VISIBLE
+            binding.bgGradient.visibility = View.VISIBLE
             if (allSongsViewModel.isPlayMusic) {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             } else {

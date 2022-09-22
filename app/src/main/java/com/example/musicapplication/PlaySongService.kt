@@ -21,8 +21,8 @@ class PlaySongService() : Service() {
     private val dataSong = MutableLiveData<List<DataSong>>()
     private lateinit var player: MediaPlayer
 
-    // Binder given to clients
     private val binder = LocalBinder()
+
 
     companion object {
         const val CHANEL_ID = "chanelID"
@@ -37,20 +37,19 @@ class PlaySongService() : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        //player.isLooping = true
         showNotif()
         //player.start()
-
         return START_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
         player.stop()
     }
 
+
     fun playMusic(path: String) {
+        /*Bkav TuanTVb: Xử lý phát nhạc được chọn*/
         player?.let {
             if (player.isPlaying) {
                 player.stop()
@@ -60,6 +59,7 @@ class PlaySongService() : Service() {
         }
     }
 
+    /* Bkav TuanTVb: Xử lý play/pause bài nhạc*/
     fun playAndPauseMusic() {
         if (player.isPlaying) {
             player.pause()
@@ -71,12 +71,9 @@ class PlaySongService() : Service() {
         return player.isPlaying
     }
 
-    /**
-     * Class used for the client Binder.  Because we know this service always
-     * runs in the same process as its clients, we don't need to deal with IPC.
-     */
     inner class LocalBinder : Binder() {
-        // Return this instance of LocalService so clients can call public methods
+        /* Bkav TuanTVb: Kết quả trả về cho phép người dùng gọi ra các
+        phương thức được tạo trong Service class*/
         fun getService(): PlaySongService = this@PlaySongService
     }
 
@@ -85,6 +82,7 @@ class PlaySongService() : Service() {
         return binder
     }
 
+    /* Bkav TuanTVb: Đăng ký chanel cho Notification*/
     fun createNotifChanel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val chanel = NotificationChannel(
@@ -100,10 +98,10 @@ class PlaySongService() : Service() {
         }
     }
 
+    /* Bkav TuanTVb: Hiển thị Notification*/
     fun showNotif() {
         val notifManager = NotificationManagerCompat.from(this)
 
-        // Get the layouts to use in the custom notification
         val notificationLayout =
             RemoteViews(applicationContext.packageName, R.layout.music_notification)
         val intent = Intent(this, MainActivity::class.java)
@@ -112,10 +110,8 @@ class PlaySongService() : Service() {
             getPendingIntent(NOTIF_ID, PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
-        // Apply the layouts to the notification
+        /* Bkav TuanTVb: Apply layout cho notification*/
         val customNotification = NotificationCompat.Builder(applicationContext, CHANEL_ID)
-            .setContentText("CntText TEXT")
-            .setContentTitle("CntTitble TITTLE")
             .setSmallIcon(R.drawable.stat_notify_musicplayer)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(notificationLayout)

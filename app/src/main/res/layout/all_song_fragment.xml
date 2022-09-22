@@ -2,23 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.">
+    tools:context="com.example."
+    >
 
     <data>
 
         <variable
             name="allSongViewModel"
             type="com.example.musicapplication.allsong.AllSongViewModel" />
-
-        <variable
-            name="song"
-            type="com.example.musicapplication.database.DataSong" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolBar"
@@ -47,15 +45,13 @@
             android:layout_height="@dimen/nav_height"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
-            android:background="@color/bg_color_song_nav"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/img_Music"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/stat_notify_musicplayer"
-                app:imageBitmap="@{allSongViewModel.songPicture}"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="3dp" />
@@ -65,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{allSongViewModel.songName}"
+                android:text="@{allSongViewModel.songIsPlaying.songName}"
                 android:textColor="#212121"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -82,9 +78,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="8dp"
-                android:text="@{allSongViewModel.songArtist}"
-                android:textColor="#212121"
-                android:textSize="15sp"
+                android:text="@{allSongViewModel.songIsPlaying.artists}"
+                android:textColor="#605C5C"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_Music"
                 app:layout_constraintEnd_toStartOf="@+id/btn_play_pause"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -104,6 +100,14 @@
                 tools:ignore="MissingConstraints,SpeakableTextPresentCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <View
+            android:id="@+id/bg_gradient"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@drawable/top_shadow_gradient"
+            android:layout_above="@+id/bottom_nav_song"
+            android:visibility="gone"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_song"
             android:layout_width="match_parent"
@@ -111,7 +115,5 @@
             android:layout_above="@id/bottom_nav_song"
             android:layout_below="@id/toolBar"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
     </RelativeLayout>
 </layout>
