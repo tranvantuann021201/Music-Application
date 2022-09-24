@@ -19,19 +19,20 @@ import com.example.musicapplication.PlaySongService
 import com.example.musicapplication.R
 import com.example.musicapplication.databinding.AllSongFragmentBinding
 
+/**
+ * Created by Bkav TuanTVb on 30/08/2022.
+ */
+
 class AllSongFragment : Fragment(), View.OnClickListener {
 
     private lateinit var allSongsViewModel: AllSongViewModel
     lateinit var binding: AllSongFragmentBinding
     private lateinit var mService: PlaySongService
-    private var mBound: Boolean = false
-
+    private var mBound: Boolean = false //todo: chưa có unBind
 
     private val adapter = AllSongAdapter(
 
-        /**
-         * Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc
-         */
+        /*Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc*/
         DataSongListener { data ->
             binding.bgGradient.visibility = View.VISIBLE
             binding.bottomNavSong.visibility = View.VISIBLE
@@ -41,11 +42,11 @@ class AllSongFragment : Fragment(), View.OnClickListener {
                 mService.playMusic(data.data!!)
                 allSongsViewModel.isPlayedMusic = true
             }
-            allSongsViewModel.onDataSongClicked(data.data!!)
+            allSongsViewModel.onDataSongClicked(data.data)
             allSongsViewModel.setSongIsPlaying(data)
         })
 
-    /** Defines callbacks for service binding, passed to bindService()  */
+    /* Defines callbacks for service binding, passed to bindService()  */
     private val connection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -55,7 +56,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             mService = binder.getService()
             mBound = true
         }
-
+        /* Bkav TuanTVb:  */
         override fun onServiceDisconnected(arg0: ComponentName) {
             mBound = false
         }
@@ -74,6 +75,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             false
         )
 
+        //todo: đọc hiểu
         val application = requireNotNull(this.activity).application
 
         val viewModelFactory = AllSongViewModelFactory(application)
@@ -85,6 +87,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         binding.listSong.adapter = adapter
 
+        //todo: chuyển vào onClick
         binding.bottomNavSong.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_allSongFragment_to_mediaPlayBackFragment)
         }

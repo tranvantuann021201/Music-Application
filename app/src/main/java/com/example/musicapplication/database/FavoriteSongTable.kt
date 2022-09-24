@@ -4,9 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-
 /**
- * Represents one night's sleep through start, end times, and the sleep quality.
+ * Created by Bkav TuanTVb on 30/08/2022.
  */
 
 @Entity

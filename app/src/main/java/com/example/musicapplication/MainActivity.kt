@@ -1,5 +1,6 @@
 package com.example.musicapplication
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.musicapplication.databinding.ActivityMainBinding
 
+/**
+ * Created by Bkav TuanTVb on 30/08/2022.
+ */
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,5 +31,12 @@ class MainActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.custom_menu, menu)
         return true
+    }
+
+    companion object {
+        var instance: MainActivity? = null
+        fun getContext(): Context {
+            return instance!!.applicationContext
+        }
     }
 }

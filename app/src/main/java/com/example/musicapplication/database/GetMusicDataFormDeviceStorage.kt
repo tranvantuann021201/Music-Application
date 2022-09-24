@@ -7,6 +7,10 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.MutableLiveData
 
+/**
+ * Created by Bkav TuanTVb on 30/08/2022.
+ */
+
 class GetMusicDataFormDeviceStorage {
 
     @SuppressLint("Recycle")
@@ -22,11 +26,11 @@ class GetMusicDataFormDeviceStorage {
             MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.ALBUM_ID,
             MediaStore.Audio.Media._ID
-        )
+            )
 
         val liveDataSongs = MutableLiveData<List<DataSong>>()
 
-        val sortOder = MediaStore.Audio.AudioColumns.TITLE
+        val sortOder = MediaStore.Audio.Media.TITLE
         val songs: ArrayList<DataSong> = ArrayList()
 
         val cursor: Cursor? =
@@ -34,18 +38,15 @@ class GetMusicDataFormDeviceStorage {
 
         if (cursor != null && cursor.moveToFirst()) {
             while (!cursor.isAfterLast) {
-
-                //songs.add(mCursor.getString(mCursor.getColumnIndex(dbAdapter.KEY_NAME))); //add the item
-
                 val song = DataSong(
                     cursor.getLong(7),
                     cursor.getString(0),
                     cursor.getString(5),
                     cursor.getString(1),
                     cursor.getLong(4),
-                    cursor.getString(2)
-                    )
-
+                    cursor.getString(2),
+                    cursor.getString(6)
+                )
                 songs.add(song)
                 cursor.moveToNext()
             }

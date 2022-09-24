@@ -5,6 +5,10 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 
+/**
+ * Created by Bkav TuanTVb on 30/08/2022.
+ */
+
 @Dao
 interface FavoriteSongDatabaseDao {
 

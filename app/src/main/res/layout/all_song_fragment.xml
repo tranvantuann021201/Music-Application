@@ -45,22 +45,34 @@
             android:layout_height="@dimen/nav_height"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/img_Music"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stat_notify_musicplayer"
+                resources="@{allSongViewModel.resources}"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                app:bitMap="@{allSongViewModel.getPicture(allSongViewModel.songIsPlaying)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="3dp" />
+                app:layout_constraintVertical_bias="0.51"
+                tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/song_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:ellipsize="end"
+                android:maxLength="23"
+                android:singleLine="true"
                 android:text="@{allSongViewModel.songIsPlaying.songName}"
                 android:textColor="#212121"
                 android:textSize="18sp"
@@ -77,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="4dp"
                 android:text="@{allSongViewModel.songIsPlaying.artists}"
                 android:textColor="#605C5C"
                 android:textSize="12sp"
@@ -103,7 +115,7 @@
         <View
             android:id="@+id/bg_gradient"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="5dp"
             android:background="@drawable/top_shadow_gradient"
             android:layout_above="@+id/bottom_nav_song"
             android:visibility="gone"/>

@@ -1,18 +1,27 @@
 package com.example.musicapplication.allsong
 
 import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.musicapplication.R
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
 
+/**
+ * Created by Bkav TuanTVb on 30/08/2022.
+ */
 
+//todo: Thiếu author, AndroidViewModel
 class AllSongViewModel(private val dataSource: Application) : ViewModel() {
 
     private val dataSongRepository = DataSongRepository()
 
-    public val songs = dataSongRepository.getSongs(dataSource)
+    val songs = dataSongRepository.getSongs(dataSource)
 
     var isPlayedMusic = false
 
@@ -22,16 +31,35 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
     val songIsPlaying: LiveData<DataSong>
         get() = _songIsPlaying
 
-    private val _songClicked = MutableLiveData<String>()
+    val resources = dataSource.resources
 
-
-    fun onDataSongClicked(id: String) {
-        _songClicked.value = id
-
+    fun onDataSongClicked(data: String) {
     }
 
     fun setSongIsPlaying(song: DataSong) {
         _songIsPlaying.value = song
+    }
+
+    /**
+     * Bkav TuanTVb:lay anh bia ra de chuyen sang thong bao
+     */
+    fun getPicture(song: DataSong?): Bitmap? {
+        song?.let {
+            var art: Bitmap = BitmapFactory.decodeResource(
+                resources,
+                R.drawable.bg_default_album_art
+            )
+            val uri = Uri.parse(song.data)
+            val mmr = MediaMetadataRetriever()
+            val bfo = BitmapFactory.Options()
+            mmr.setDataSource(dataSource, uri)
+            val rawArt: ByteArray? = mmr.embeddedPicture
+            if (null != rawArt) {
+                art = BitmapFactory.decodeByteArray(rawArt, 0, rawArt.size, bfo)
+            }
+            return art
+        }
+        return null
     }
 }
 

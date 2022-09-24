@@ -5,6 +5,10 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 
+/**
+ * Created by Bkav TuanTVb on 05/09/2022.
+ */
+
 class PlaySongContentProvider: ContentProvider() {
     override fun onCreate(): Boolean {
         TODO("Not yet implemented")

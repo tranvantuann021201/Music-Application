@@ -12,10 +12,6 @@
         <variable
             name="song"
             type="com.example.musicapplication.database.DataSong" />
-
-        <variable
-            name="allSongViewModel"
-            type="com.example.musicapplication.allsong.AllSongViewModel" />
     </data>
 
     <RelativeLayout
@@ -61,6 +57,7 @@
             android:layout_toEndOf="@id/song_index"
             android:textColor="#605C5C"
             android:textSize="@dimen/txt_size_song_artist"
+            durationSong="@{song.duration}"
             app:layout_constraintHorizontal_bias="0.0"
             tools:ignore="MissingConstraints" />
 

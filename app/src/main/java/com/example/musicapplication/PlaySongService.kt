@@ -15,6 +15,10 @@ import androidx.lifecycle.MutableLiveData
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
 
+/**
+ * Created by Bkav TuanTVb on 05/09/2022.
+ */
+
 class PlaySongService() : Service() {
 
     private val dataSongRepository = DataSongRepository()
