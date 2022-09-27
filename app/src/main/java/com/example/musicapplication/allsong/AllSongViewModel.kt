@@ -31,7 +31,7 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
     val songIsPlaying: LiveData<DataSong>
         get() = _songIsPlaying
 
-    val resources = dataSource.resources
+    val resources = dataSource.resources!!
 
     fun onDataSongClicked(data: String) {
     }
@@ -39,7 +39,6 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
     fun setSongIsPlaying(song: DataSong) {
         _songIsPlaying.value = song
     }
-
     /**
      * Bkav TuanTVb:lay anh bia ra de chuyen sang thong bao
      */
