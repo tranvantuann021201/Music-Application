@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 class AllSongViewModelFactory(
-    val database: Application
+    val dataSource: Application
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AllSongViewModel::class.java)) {
-            return AllSongViewModel(database,) as T
+            return AllSongViewModel(dataSource) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

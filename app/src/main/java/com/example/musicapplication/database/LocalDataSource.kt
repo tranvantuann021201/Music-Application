@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
  * Created by Bkav TuanTVb on 30/08/2022.
  */
 
-class GetMusicDataFormDeviceStorage {
+class LocalDataSource {
 
     @SuppressLint("Recycle")
     fun getSong(context: Context): MutableLiveData<List<DataSong>> {

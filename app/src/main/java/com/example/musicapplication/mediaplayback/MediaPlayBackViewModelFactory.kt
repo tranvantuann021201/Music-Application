@@ -1,12 +1,11 @@
 package com.example.musicapplication.mediaplayback
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.musicapplication.database.FavoriteSongDatabaseDao
-
 
 class MediaPlayBackViewModelFactory(
-    val database: FavoriteSongDatabaseDao
+    val database: Application
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MediaPlayBackViewModel::class.java)) {

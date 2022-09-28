@@ -8,9 +8,9 @@ import androidx.lifecycle.MutableLiveData
  */
 
 class DataSongRepository {
-    private val getMusicDataFormDeviceStorage = GetMusicDataFormDeviceStorage()
+    private val localDataSource = LocalDataSource()
     fun getSongs(context: Context): MutableLiveData<List<DataSong>> {
-        return getMusicDataFormDeviceStorage.getSong(context)
+        return localDataSource.getSong(context)
     }
 }
 

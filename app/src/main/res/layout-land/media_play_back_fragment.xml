@@ -7,7 +7,7 @@
     <data>
 
         <variable
-            name="mediaPlayBack"
+            name="mediaPlayBackViewModel"
             type="com.example.musicapplication.mediaplayback.MediaPlayBackViewModel" />
         <variable
             name="allSongViewModel"
@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/stat_notify_musicplayer"
-                    app:imageBitmap="@{mediaPlayBack.songPicture}"
+                    app:imageBitmap="@{mediaPlayBackViewModel.songPicture}"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@{mediaPlayBack.songName}"
+                    android:text="@{mediaPlayBackViewModel.songName}"
                     android:textColor="#212121"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@{mediaPlayBack.songArtist}"
+                    android:text="@{mediaPlayBackViewModel.songArtist}"
                     android:textColor="#212121"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@+id/img_Music"

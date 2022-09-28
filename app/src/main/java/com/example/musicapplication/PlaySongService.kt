@@ -27,8 +27,8 @@ class PlaySongService() : Service() {
 
     private val binder = LocalBinder()
 
-
     companion object {
+        //không nên đặt const cho 2 biến này. Nên để dạng XML
         const val CHANEL_ID = "chanelID"
         const val CHANEL_NAME = "chanelName"
         const val NOTIF_ID = 0

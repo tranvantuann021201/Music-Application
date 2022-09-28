@@ -10,6 +10,7 @@
         <variable
             name="allSongViewModel"
             type="com.example.musicapplication.allsong.AllSongViewModel" />
+
     </data>
 
     <RelativeLayout
@@ -45,7 +46,7 @@
             android:layout_height="@dimen/nav_height"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="0dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/img_Music"
