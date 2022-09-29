@@ -7,8 +7,12 @@
     <data>
 
         <variable
-            name="mediaPlayBack"
+            name="mediaPlayBackViewModel"
             type="com.example.musicapplication.mediaplayback.MediaPlayBackViewModel" />
+        <variable
+            name="getPictureIsPlaying"
+            type="com.example.musicapplication.GetPictureFormDataMusic" />
+
     </data>
 
     <RelativeLayout
@@ -17,6 +21,7 @@
         android:background="@drawable/ic_launcher_background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/song_top_widget"
             android:layout_width="match_parent"
             android:layout_height="@dimen/nav_height"
             android:layout_alignParentTop="true"
@@ -27,7 +32,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/stat_notify_musicplayer"
-                app:imageBitmap="@{mediaPlayBack.songPicture}"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -35,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{mediaPlayBack.songIsPlaying.songName}"
+                android:text="@{mediaPlayBackViewModel.songIsPlaying.songName}"
                 android:textColor="#212121"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -52,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="8dp"
-                android:text="@{mediaPlayBack.songIsPlaying.artists}"
+                android:text="@{mediaPlayBackViewModel.songIsPlaying.artists}"
                 android:textColor="#605C5C"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_Music"
@@ -184,7 +188,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="@dimen/ic_dislike_margin_end"
-                android:src="@drawable/ic_thumbs_up_default"
+                android:src="@drawable/ic_thumbs_down_default"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/seak_media_play_back"

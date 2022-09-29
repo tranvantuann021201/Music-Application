@@ -41,14 +41,12 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
 
 //        mediaPlayBackViewModel = ViewModelProvider(this)[MediaPlayBackViewModel::class.java]
 
-
         binding.iconCollectSong.setOnClickListener { view: View ->
             view.findNavController()
                 .navigate(R.id.action_mediaPlayBackFragment4_to_allSongFragment4)
         }
 
         binding.icPauseSong.setOnClickListener(this)
-
         binding.mediaPlayBackViewModel = mediaPlayBackViewModel
 
         binding.lifecycleOwner = viewLifecycleOwner
@@ -64,6 +62,15 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
     private fun saveStatusBottomNav() {
         if(mainActivity.mService.getStatusMusic()){
             binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
+        }
+        else{
+            binding.icPauseSong.setImageResource(R.drawable.ic_media_play_dark)
+        }
+    }
+
+    private fun statusTopWidget() {
+        if(mainActivity.mService.getStatusMusic()){
+
         }
         else{
             binding.icPauseSong.setImageResource(R.drawable.ic_media_play_dark)

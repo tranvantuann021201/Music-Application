@@ -1,27 +1,17 @@
 package com.example.musicapplication.mediaplayback
 
 import android.app.Application
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.musicapplication.database.DataSong
+import com.example.musicapplication.database.DataSongRepository
 
-class MediaPlayBackViewModel(
-    database: Application
+class MediaPlayBackViewModel(private val dataSource: Application
 ) : ViewModel(){
-    //get attributes data of song
-    private val _songName = MutableLiveData<String?>()
-    val songName: LiveData<String?>
-        get() = _songName
 
-    private val _songArtist = MutableLiveData<String?>()
-    val songArtist: LiveData<String?>
-        get() = _songArtist
-
-    private val _songPicture = MutableLiveData<Bitmap?>()
-    val songPicture: LiveData<Bitmap?>
-        get() = _songPicture
+    private val dataSongRepository = DataSongRepository()
+    val songs = dataSongRepository.getSongs(dataSource)
 
     private val _songIsPlaying = MutableLiveData<DataSong>()
     val songIsPlaying: LiveData<DataSong>

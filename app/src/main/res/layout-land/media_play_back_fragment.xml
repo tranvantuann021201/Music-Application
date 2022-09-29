@@ -45,7 +45,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/stat_notify_musicplayer"
-                    app:imageBitmap="@{mediaPlayBackViewModel.songPicture}"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
@@ -53,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@{mediaPlayBackViewModel.songName}"
+                    android:text=""
                     android:textColor="#212121"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -70,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="8dp"
-                    android:text="@{mediaPlayBackViewModel.songArtist}"
+                    android:text=""
                     android:textColor="#212121"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="@+id/img_Music"
@@ -126,17 +125,17 @@
                 android:layout_height="80dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="-2dp"
-                android:paddingBottom="8dp"
-                android:background="@color/bg_color_song_nav">
+                android:background="@color/bg_color_song_nav"
+                android:paddingBottom="8dp">
 
                 <SeekBar
                     android:id="@+id/seak_media_play_back"
                     android:layout_width="match_parent"
                     android:layout_height="18dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints"
+                    android:progressTint="@color/mainColor"
                     android:thumbTint="@color/mainColor"
-                    android:progressTint="@color/mainColor"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
 
                 <ImageView
                     android:id="@+id/ic_like_song"
@@ -198,7 +197,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginEnd="@dimen/ic_dislike_margin_end"
-                    android:src="@drawable/ic_thumbs_up_default"
+                    android:src="@drawable/ic_thumbs_down_default"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/seak_media_play_back"

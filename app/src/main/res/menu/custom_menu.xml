@@ -8,16 +8,16 @@
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"
         />
-    <item android:title="@string/title_item_allSong"
+    <item
         android:id="@+id/item_allSong"
         android:icon="@drawable/stat_notify_musicplayer"
-        app:showAsAction="collapseActionView"
-        />
+        android:title="@string/title_item_allSong"
+        app:showAsAction="never" />
 
-    <item android:title="@string/title_item_favoriteSong"
+    <item
         android:id="@+id/item_favoriteSong"
         android:icon="@drawable/ic_family_24dp"
-        app:showAsAction="collapseActionView"
-        />
+        android:title="@string/title_item_favoriteSong"
+        app:showAsAction="never" />
 
 </menu>

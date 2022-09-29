@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.databinding.ActivityMainBinding
 
 /**
@@ -29,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         mService = PlaySongService()
 
         val navController = this.findNavController(R.id.myNavHostFragment)
+        NavigationUI.setupWithNavController(binding.navView, navController)
 
-        NavigationUI.setupActionBarWithNavController(this, navController)
 
     }
 
@@ -80,9 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        var instance: MainActivity? = null
-        fun getContext(): Context {
-            return instance!!.applicationContext
-        }
+        lateinit var musicListPA : ArrayList<DataSong>
+        var songPosition: Int = 0
     }
 }

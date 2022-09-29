@@ -22,8 +22,9 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
     private lateinit var allSongsViewModel: AllSongViewModel
     private lateinit var mainActivity: MainActivity
-    lateinit var binding: AllSongFragmentBinding//todo: chưa có unBind
+    lateinit var binding: AllSongFragmentBinding
 
+    //todo: chưa có unBind
     private val adapter = AllSongAdapter(
 
         /*Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc*/
@@ -32,7 +33,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             if (mainActivity.mBound) {
-                mainActivity.mService.playMusic(data.data!!)
+                mainActivity.mService.playMusic(data.data)
                 allSongsViewModel.isPlayedMusic = true
             }
             allSongsViewModel.onDataSongClicked(data.data)
@@ -64,6 +65,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
                 this, viewModelFactory
             )[AllSongViewModel::class.java]
 
+        /* Bkav TuanTVb: Gán dữ liệu cho RecyclerView cho adapter*/
         binding.listSong.adapter = adapter
 
         //todo: chuyển vào onClick

@@ -11,9 +11,6 @@ import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.MutableLiveData
-import com.example.musicapplication.database.DataSong
-import com.example.musicapplication.database.DataSongRepository
 
 /**
  * Created by Bkav TuanTVb on 05/09/2022.
@@ -21,10 +18,7 @@ import com.example.musicapplication.database.DataSongRepository
 
 class PlaySongService() : Service() {
 
-    private val dataSongRepository = DataSongRepository()
-    private val dataSong = MutableLiveData<List<DataSong>>()
     private lateinit var player: MediaPlayer
-
     private val binder = LocalBinder()
 
     companion object {
@@ -34,14 +28,13 @@ class PlaySongService() : Service() {
         const val NOTIF_ID = 0
     }
 
-
     override fun onCreate() {
         super.onCreate()
         createNotifChanel()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        showNotif()
+        showNotification()
         //player.start()
         return START_STICKY
     }
@@ -50,7 +43,6 @@ class PlaySongService() : Service() {
         super.onDestroy()
         player.stop()
     }
-
 
     fun playMusic(path: String) {
         /*Bkav TuanTVb: Xử lý phát nhạc được chọn*/
@@ -103,8 +95,8 @@ class PlaySongService() : Service() {
     }
 
     /* Bkav TuanTVb: Hiển thị Notification*/
-    fun showNotif() {
-        val notifManager = NotificationManagerCompat.from(this)
+    fun showNotification() {
+        val notificationManager = NotificationManagerCompat.from(this)
 
         val notificationLayout =
             RemoteViews(applicationContext.packageName, R.layout.music_notification)
@@ -122,7 +114,6 @@ class PlaySongService() : Service() {
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .build()
-
-        notifManager.notify(NOTIF_ID,customNotification)
+        notificationManager.notify(NOTIF_ID,customNotification)
     }
 }
