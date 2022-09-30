@@ -81,7 +81,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        var instance: MainActivity? = null
         lateinit var musicListPA : ArrayList<DataSong>
         var songPosition: Int = 0
+        public fun getContext(): Context{
+            return instance!!.applicationContext
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.musicapplication.allsong
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +12,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapplication.MainActivity
+import com.example.musicapplication.PlaySongService
 import com.example.musicapplication.R
+import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.databinding.AllSongFragmentBinding
 
 /**
@@ -28,16 +31,16 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private val adapter = AllSongAdapter(
 
         /*Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc*/
-        DataSongListener { data ->
+        DataSongListener { song ->
             binding.bgGradient.visibility = View.VISIBLE
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             if (mainActivity.mBound) {
-                mainActivity.mService.playMusic(data.data)
+                mainActivity.mService.playMusic(song)
                 allSongsViewModel.isPlayedMusic = true
             }
-            allSongsViewModel.onDataSongClicked(data.data)
-            allSongsViewModel.setSongIsPlaying(data)
+            allSongsViewModel.onDataSongClicked(song.data)
+            allSongsViewModel.setSongIsPlaying(song)
         })
 
     override fun onCreateView(
@@ -71,6 +74,10 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         //todo: chuyển vào onClick
         binding.bottomNavSong.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_allSongFragment_to_mediaPlayBackFragment)
+            val intent: Intent = Intent (context, PlaySongService::class.java)
+            val dataArray : ArrayList<DataSong> = ArrayList<DataSong>()
+            intent.putExtra("dataSong", dataArray)
+            startActivity(intent)
         }
 
         binding.allSongViewModel = allSongsViewModel

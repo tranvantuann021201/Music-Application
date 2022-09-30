@@ -11,6 +11,9 @@ import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.MutableLiveData
+import com.example.musicapplication.database.DataSong
+import com.example.musicapplication.database.DataSongRepository
 
 /**
  * Created by Bkav TuanTVb on 05/09/2022.
@@ -18,24 +21,36 @@ import androidx.core.app.NotificationManagerCompat
 
 class PlaySongService() : Service() {
 
-    private lateinit var player: MediaPlayer
+    private var player: MediaPlayer
     private val binder = LocalBinder()
+    private val dataSongRepository = DataSongRepository()
+    var listSong = MutableLiveData<ArrayList<DataSong>>()
 
     companion object {
         //không nên đặt const cho 2 biến này. Nên để dạng XML
         const val CHANEL_ID = "chanelID"
         const val CHANEL_NAME = "chanelName"
         const val NOTIF_ID = 0
+
+        var index: Int = 0
     }
 
+    init {
+        player = MediaPlayer()
+    }
     override fun onCreate() {
         super.onCreate()
-        createNotifChanel()
+        createNotificationChanel()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         showNotification()
         //player.start()
+
+        val list: ArrayList<DataSong>
+            list =
+                (intent!!.extras?.getSerializable(("dataSong"))) as ArrayList<DataSong>
+
         return START_STICKY
     }
 
@@ -44,13 +59,13 @@ class PlaySongService() : Service() {
         player.stop()
     }
 
-    fun playMusic(path: String) {
+    fun playMusic(song: DataSong) {
         /*Bkav TuanTVb: Xử lý phát nhạc được chọn*/
         player?.let {
             if (player.isPlaying) {
                 player.stop()
             }
-            player = MediaPlayer.create(applicationContext, Uri.parse(path))
+            player = MediaPlayer.create(applicationContext, Uri.parse(song.data))
             player.start()
         }
     }
@@ -74,12 +89,11 @@ class PlaySongService() : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        player = MediaPlayer()
         return binder
     }
 
     /* Bkav TuanTVb: Đăng ký chanel cho Notification*/
-    fun createNotifChanel() {
+    fun createNotificationChanel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val chanel = NotificationChannel(
                 CHANEL_ID,
