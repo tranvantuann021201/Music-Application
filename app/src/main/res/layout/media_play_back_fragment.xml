@@ -5,14 +5,12 @@
     tools:context="com.example.android.navigation.MediaPlayBackFragment">
 
     <data>
-
         <variable
             name="mediaPlayBackViewModel"
             type="com.example.musicapplication.mediaplayback.MediaPlayBackViewModel" />
         <variable
             name="getPictureIsPlaying"
             type="com.example.musicapplication.GetPictureFormDataMusic" />
-
     </data>
 
     <RelativeLayout
@@ -39,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{mediaPlayBackViewModel.songIsPlaying.songName}"
+                android:text="@{mediaPlayBackViewModel.songIsPlaying.get(1).songName}"
                 android:textColor="#212121"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -56,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="8dp"
-                android:text="@{mediaPlayBackViewModel.songIsPlaying.artists}"
+                android:text="@{mediaPlayBackViewModel.songIsPlaying.get(1).artists}"
                 android:textColor="#605C5C"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_Music"

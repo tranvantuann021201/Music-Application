@@ -33,6 +33,7 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
 
         fun bind(item: DataSong, clickListener: DataSongListener, position: Int) {
               binding.song = item
+              binding.index = position
               binding.songIndex.text = (position+1).toString()
 
               binding.clickListener = clickListener
@@ -48,7 +49,8 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
     }
 }
 
-class DataSongListener(var clickListener: (song: DataSong) -> Unit) {
-    fun onClick(songs: DataSong) = clickListener(songs)
+class DataSongListener(var clickListener: (song: DataSong, index: Int) -> Unit) {
+    fun onClick(songs: DataSong, index: Int) = clickListener(songs, index)
 }
+
 

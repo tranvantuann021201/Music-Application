@@ -1,6 +1,5 @@
 package com.example.musicapplication.mediaplayback
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapplication.MainActivity
 import com.example.musicapplication.R
-import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.databinding.MediaPlayBackFragmentBinding
 
 class MediaPlayBackFragment : Fragment(), View.OnClickListener {
@@ -53,7 +51,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        getDataMusicIsPlaying()
+        mediaPlayBackViewModel.setSongIsPlaying(mainActivity.mService.getListSong())
 
         return binding.root
     }

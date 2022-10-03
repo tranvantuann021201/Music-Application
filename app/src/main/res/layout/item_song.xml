@@ -12,12 +12,16 @@
         <variable
             name="song"
             type="com.example.musicapplication.database.DataSong" />
+
+        <variable
+            name="index"
+            type="int" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:onClick="@{() -> clickListener.onClick(song)}"
+        android:onClick="@{() -> clickListener.onClick(song, index)}"
         >
 
         <TextView

@@ -31,16 +31,20 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private val adapter = AllSongAdapter(
 
         /*Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc*/
-        DataSongListener { song ->
+        DataSongListener {song, index ->
             binding.bgGradient.visibility = View.VISIBLE
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             if (mainActivity.mBound) {
-                mainActivity.mService.playMusic(song)
+                mainActivity.mService.playMusic(index)
                 allSongsViewModel.isPlayedMusic = true
             }
             allSongsViewModel.onDataSongClicked(song.data)
             allSongsViewModel.setSongIsPlaying(song)
+
+            val intent: Intent = Intent (context, PlaySongService::class.java)
+            val dataArray : ArrayList<DataSong> = ArrayList<DataSong>(song)
+            intent.putExtra("dataSong", dataArray)
         })
 
     override fun onCreateView(
@@ -73,11 +77,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         //todo: chuyển vào onClick
         binding.bottomNavSong.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_allSongFragment_to_mediaPlayBackFragment)
-            val intent: Intent = Intent (context, PlaySongService::class.java)
-            val dataArray : ArrayList<DataSong> = ArrayList<DataSong>()
-            intent.putExtra("dataSong", dataArray)
-            startActivity(intent)
+            view.findNavController().navigate(All)
         }
 
         binding.allSongViewModel = allSongsViewModel

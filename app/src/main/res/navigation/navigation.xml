@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/allSongFragment"
         android:name="com.example.musicapplication.allsong.AllSongFragment"
-        android:label="Music" >
+        android:label="Music">
         <action
             android:id="@+id/action_allSongFragment_to_mediaPlayBackFragment"
             app:destination="@id/mediaPlayBackFragment"

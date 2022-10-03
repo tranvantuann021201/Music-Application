@@ -13,11 +13,12 @@ class MediaPlayBackViewModel(private val dataSource: Application
     private val dataSongRepository = DataSongRepository()
     val songs = dataSongRepository.getSongs(dataSource)
 
-    private val _songIsPlaying = MutableLiveData<DataSong>()
-    val songIsPlaying: LiveData<DataSong>
+    private val _songIsPlaying = MutableLiveData<ArrayList<DataSong>>()
+    val songIsPlaying: LiveData<ArrayList<DataSong>>
         get() = _songIsPlaying
 
-    fun setSongIsPlaying(song: DataSong) {
+
+    fun setSongIsPlaying(song: ArrayList<DataSong>) {
         _songIsPlaying.value = song
     }
 }

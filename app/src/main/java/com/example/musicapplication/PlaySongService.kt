@@ -11,7 +11,6 @@ import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.MutableLiveData
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
 
@@ -24,7 +23,7 @@ class PlaySongService() : Service() {
     private var player: MediaPlayer
     private val binder = LocalBinder()
     private val dataSongRepository = DataSongRepository()
-    var listSong = MutableLiveData<ArrayList<DataSong>>()
+    private lateinit var listSong: ArrayList<DataSong>
 
     companion object {
         //không nên đặt const cho 2 biến này. Nên để dạng XML
@@ -45,12 +44,7 @@ class PlaySongService() : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         showNotification()
-        //player.start()
-
-        val list: ArrayList<DataSong>
-            list =
-                (intent!!.extras?.getSerializable(("dataSong"))) as ArrayList<DataSong>
-
+        listSong = (intent!!.extras?.getSerializable(("dataSong"))) as ArrayList<DataSong>
         return START_STICKY
     }
 
@@ -59,13 +53,17 @@ class PlaySongService() : Service() {
         player.stop()
     }
 
-    fun playMusic(song: DataSong) {
+    fun getListSong(): ArrayList<DataSong>{
+        return listSong
+    }
+
+    fun playMusic(index: Int) {
         /*Bkav TuanTVb: Xử lý phát nhạc được chọn*/
         player?.let {
             if (player.isPlaying) {
                 player.stop()
             }
-            player = MediaPlayer.create(applicationContext, Uri.parse(song.data))
+            player = MediaPlayer.create(applicationContext, Uri.parse(listSong[index].data))
             player.start()
         }
     }
@@ -111,7 +109,6 @@ class PlaySongService() : Service() {
     /* Bkav TuanTVb: Hiển thị Notification*/
     fun showNotification() {
         val notificationManager = NotificationManagerCompat.from(this)
-
         val notificationLayout =
             RemoteViews(applicationContext.packageName, R.layout.music_notification)
         val intent = Intent(this, MainActivity::class.java)
