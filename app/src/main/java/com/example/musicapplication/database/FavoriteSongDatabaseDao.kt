@@ -12,13 +12,13 @@ import androidx.room.Update
 @Dao
 interface FavoriteSongDatabaseDao {
 
-    //update bai hat
+    /* Bkav TuanTVb: Update bài hát*/
     @Update
     suspend fun update(song: FavoriteSongsDatabase)
-    //them bai hat ua thich
+    /* Bkav TuanTVb: Thêm bài hát ưa thích*/
     @Insert
     suspend fun insert(song: FavoriteSongsDatabase)
-    // lay ra tat ca bai hat ua thich
+    /* Bkav TuanTVb: Lấy ra tất cả bài hát ưa thích*/
     @Query("SELECT * FROM SongTable")
     fun getAllSongs(): List<FavoriteSongsDatabase>
     @Query("DELETE FROM SongTable WHERE song_ID = :key ")

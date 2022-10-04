@@ -27,9 +27,12 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private lateinit var mainActivity: MainActivity
     lateinit var binding: AllSongFragmentBinding
 
-    //todo: chưa có unBind
-    private val adapter = AllSongAdapter(
+    companion object {
+        const val KEY_PUT_LIST_DATA_SONG = "dataSong"
+    }
 
+    //todo: chưa có unBind: HOÀN THÀNH
+    private val adapter = AllSongAdapter(
         /*Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc*/
         DataSongListener {song, index ->
             binding.bgGradient.visibility = View.VISIBLE
@@ -43,8 +46,8 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             allSongsViewModel.setSongIsPlaying(song)
 
             val intent: Intent = Intent (context, PlaySongService::class.java)
-            val dataArray : ArrayList<DataSong> = ArrayList<DataSong>(song)
-            intent.putExtra("dataSong", dataArray)
+            val dataArray : ArrayList<DataSong> = ArrayList<DataSong>(index)
+            intent.putExtra(KEY_PUT_LIST_DATA_SONG, dataArray)
         })
 
     override fun onCreateView(
@@ -62,8 +65,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             false
         )
 
-        //todo: đọc hiểu
-
         /* Bkav TuanTVb: Tham chiếu allSongViewModel đến AllSongFragment*/
         val application = requireNotNull(this.activity).application
         val viewModelFactory = AllSongViewModelFactory(application)
@@ -75,11 +76,12 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         /* Bkav TuanTVb: Gán dữ liệu cho RecyclerView cho adapter*/
         binding.listSong.adapter = adapter
 
-        //todo: chuyển vào onClick
+        /* Bkav TuanTVb: Chuyển hướng sang mediaPlayBackFragment khi bấm vào bottomNavSong*/
         binding.bottomNavSong.setOnClickListener { view: View ->
-            view.findNavController().navigate(All)
+            view.findNavController().navigate(R.id.action_mediaPlayBackFragment4_to_allSongFragment4)
         }
 
+        /* Bkav TuanTVb: Tham chiếu viewmodel sang biến viewmodel bên layout*/
         binding.allSongViewModel = allSongsViewModel
 
         /* Bkav TuanTVb: Hiển thị thông tin bài hát ở bottomNavSong ngay khi người dùng chọn bài hát*/
@@ -89,8 +91,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         allSongsViewModel.songs.observe(viewLifecycleOwner, Observer { newSongs ->
             adapter.data = newSongs
         })
-
-        //binding.btnPlayPause.setOnClickListener(this)
         binding.btnPlayPause.setOnClickListener(this)
 
         return binding.root
@@ -101,7 +101,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         /* Bkav TuanTVb: Hiển thị bottomNavSong đúng trạng thái*/
         allSongsViewModel.isPlayMusic = true
-        saveStatusBottomNav()
+        saveStatusBottomNavigation()
         Log.i("TitleFragment", "onStart called")
     }
 
@@ -112,7 +112,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
     override fun onStop() {
         super.onStop()
-        //requireActivity().unbindService(connection)
         Log.i("TitleFragment", "onStop called")
     }
 
@@ -140,7 +139,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
      * Bkav TuanTVb: Giữ nguyên trạng thái của btnPlayPause khi xoay màn hình
      */
 
-    private fun saveStatusBottomNav() {
+    private fun saveStatusBottomNavigation() {
         if (allSongsViewModel.isPlayedMusic) {
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.bgGradient.visibility = View.VISIBLE

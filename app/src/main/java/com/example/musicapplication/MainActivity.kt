@@ -27,16 +27,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mService = PlaySongService()
 
         val navController = this.findNavController(R.id.myNavHostFragment)
         NavigationUI.setupWithNavController(binding.navView, navController)
-
-
     }
 
-
-    /* Defines callbacks for service binding, passed to bindService()  */
+    /* Bkav TuanTVb: Định nghĩa callbacks cho service binding, được truyền vào bindService()*/
     private val connection = object : ServiceConnection {
 
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
@@ -51,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             mBound = false
         }
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -72,6 +67,18 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         mBound = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        /* Bkav TuanTVb: Gọi startService, onStartCommand chứa hàm hiển thị notification*/
+        this.stopService(
+            Intent(this, PlaySongService::class.java)
+        )
+
+        /* Bkav TuanTVb: Liên kết client với service*/
+        this.unbindService(connection)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

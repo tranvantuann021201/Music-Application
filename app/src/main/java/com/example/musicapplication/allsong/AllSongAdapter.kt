@@ -20,7 +20,6 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //val item = getItemId(position)
         val item = data[position]
         holder.bind(item, clickListener, position)
     }

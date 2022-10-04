@@ -7,6 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.database.DataSongRepository
 
+/**
+ * Created by Bkav TuanTVb on 04/09/2022.
+ */
+
 class MediaPlayBackViewModel(private val dataSource: Application
 ) : ViewModel(){
 

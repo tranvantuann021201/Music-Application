@@ -12,6 +12,10 @@ import com.example.musicapplication.MainActivity
 import com.example.musicapplication.R
 import com.example.musicapplication.databinding.MediaPlayBackFragmentBinding
 
+/**
+ * Created by Bkav TuanTVb on 04/09/2022.
+ */
+
 class MediaPlayBackFragment : Fragment(), View.OnClickListener {
 
     private lateinit var mediaPlayBackViewModel: MediaPlayBackViewModel
@@ -22,15 +26,15 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        /* Bkav TuanTVb: Inflate layout cho frament*/
         binding = DataBindingUtil.inflate<MediaPlayBackFragmentBinding>(
             inflater,
             R.layout.media_play_back_fragment,
             container,
             false
         )
-
         mainActivity = requireActivity() as MainActivity
+
         /* Bkav TuanTVb: Tham chiếu mediaPlayBackViewModel đến MediaPlayBackFragment*/
         val application = requireNotNull(this.activity).application
         val viewModelFactory = MediaPlayBackViewModelFactory(application)
@@ -39,8 +43,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
                 this, viewModelFactory
             )[MediaPlayBackViewModel::class.java]
 
-//        mediaPlayBackViewModel = ViewModelProvider(this)[MediaPlayBackViewModel::class.java]
-
+        /* Bkav TuanTVb: Xử lý click khi bấm vào iconCollectSong*/
         binding.iconCollectSong.setOnClickListener { view: View ->
             view.findNavController()
                 .navigate(R.id.action_mediaPlayBackFragment4_to_allSongFragment4)
@@ -48,20 +51,18 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
 
         binding.icPauseSong.setOnClickListener(this)
         binding.mediaPlayBackViewModel = mediaPlayBackViewModel
-
         binding.lifecycleOwner = viewLifecycleOwner
-
-        mediaPlayBackViewModel.setSongIsPlaying(mainActivity.mService.getListSong())
 
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        saveStatusBottomNav()
+        saveStatusBottomNavigation()
     }
 
-    private fun saveStatusBottomNav() {
+    /* Bkav TuanTVb: Lưu lại trạng thái của bottomNavigation*/
+    private fun saveStatusBottomNavigation() {
         if(mainActivity.mService.getStatusMusic()){
             binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
         }
@@ -81,7 +82,4 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
             (requireActivity() as MainActivity).mService.playAndPauseMusic()
         }
     }
-
-
-
 }

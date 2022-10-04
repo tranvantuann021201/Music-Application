@@ -11,8 +11,8 @@ import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.example.musicapplication.allsong.AllSongFragment
 import com.example.musicapplication.database.DataSong
-import com.example.musicapplication.database.DataSongRepository
 
 /**
  * Created by Bkav TuanTVb on 05/09/2022.
@@ -22,7 +22,6 @@ class PlaySongService() : Service() {
 
     private var player: MediaPlayer
     private val binder = LocalBinder()
-    private val dataSongRepository = DataSongRepository()
     private lateinit var listSong: ArrayList<DataSong>
 
     companion object {
@@ -30,8 +29,6 @@ class PlaySongService() : Service() {
         const val CHANEL_ID = "chanelID"
         const val CHANEL_NAME = "chanelName"
         const val NOTIF_ID = 0
-
-        var index: Int = 0
     }
 
     init {
@@ -44,17 +41,13 @@ class PlaySongService() : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         showNotification()
-        listSong = (intent!!.extras?.getSerializable(("dataSong"))) as ArrayList<DataSong>
+        listSong = (intent!!.extras?.getSerializable((AllSongFragment.KEY_PUT_LIST_DATA_SONG))) as ArrayList<DataSong>
         return START_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
         player.stop()
-    }
-
-    fun getListSong(): ArrayList<DataSong>{
-        return listSong
     }
 
     fun playMusic(index: Int) {
