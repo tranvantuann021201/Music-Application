@@ -9,6 +9,7 @@ import android.os.IBinder
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.musicapplication.database.DataSong
@@ -20,8 +21,9 @@ import com.example.musicapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    public lateinit var mService: PlaySongService
-    public var mBound: Boolean = false
+    private lateinit var mService: PlaySongService
+    private var mBound: Boolean = false
+    var listSong = MutableLiveData<ArrayList<DataSong>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,19 +68,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        mBound = false
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        /* Bkav TuanTVb: Gọi startService, onStartCommand chứa hàm hiển thị notification*/
-        this.stopService(
-            Intent(this, PlaySongService::class.java)
-        )
-
         /* Bkav TuanTVb: Liên kết client với service*/
         this.unbindService(connection)
+        mBound = false
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -87,11 +79,17 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    fun getServiceStatus(): PlaySongService {
+        return mService
+    }
+
+    fun getBoundStatus(): Boolean {
+        return mBound
+    }
+
     companion object {
         var instance: MainActivity? = null
-        lateinit var musicListPA : ArrayList<DataSong>
-        var songPosition: Int = 0
-        public fun getContext(): Context{
+        fun getContext(): Context{
             return instance!!.applicationContext
         }
     }

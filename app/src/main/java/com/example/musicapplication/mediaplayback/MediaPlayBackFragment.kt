@@ -63,7 +63,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
 
     /* Bkav TuanTVb: Lưu lại trạng thái của bottomNavigation*/
     private fun saveStatusBottomNavigation() {
-        if(mainActivity.mService.getStatusMusic()){
+        if(mainActivity.getServiceStatus().getStatusMusic()){
             binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
         }
         else{
@@ -74,12 +74,12 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
     /* Bkav TuanTVb: Xử lý click khi chọn Play/Pause bài nhạc*/
     override fun onClick(v: View) {
         if (v === binding.icPauseSong) {
-            if (mainActivity.mService.getStatusMusic()) {
+            if (mainActivity.getServiceStatus().getStatusMusic()) {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_play_dark)
             } else {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
             }
-            (requireActivity() as MainActivity).mService.playAndPauseMusic()
+            (requireActivity() as MainActivity).getServiceStatus().playAndPauseMusic()
         }
     }
 }

@@ -20,6 +20,7 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
     override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //val item = getItemId(position)
         val item = data[position]
         holder.bind(item, clickListener, position)
     }
@@ -29,10 +30,8 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
     }
 
     class ViewHolder constructor(private val binding: ItemSongBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(item: DataSong, clickListener: DataSongListener, position: Int) {
               binding.song = item
-              binding.index = position
               binding.songIndex.text = (position+1).toString()
 
               binding.clickListener = clickListener
@@ -48,8 +47,8 @@ class AllSongAdapter(private val clickListener: DataSongListener) : RecyclerView
     }
 }
 
-class DataSongListener(var clickListener: (song: DataSong, index: Int) -> Unit) {
-    fun onClick(songs: DataSong, index: Int) = clickListener(songs, index)
+class DataSongListener(var clickListener: (song: DataSong) -> Unit) {
+    fun onClick(songs: DataSong) = clickListener(songs)
 }
 
 

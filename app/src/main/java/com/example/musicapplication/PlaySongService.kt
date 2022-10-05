@@ -11,7 +11,7 @@ import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.musicapplication.allsong.AllSongFragment
+import com.example.musicapplication.allsong.AllSongViewModel
 import com.example.musicapplication.database.DataSong
 
 /**
@@ -22,6 +22,7 @@ class PlaySongService() : Service() {
 
     private var player: MediaPlayer
     private val binder = LocalBinder()
+    private lateinit var allSongsViewModel: AllSongViewModel
     private lateinit var listSong: ArrayList<DataSong>
 
     companion object {
@@ -40,8 +41,6 @@ class PlaySongService() : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        showNotification()
-        listSong = (intent!!.extras?.getSerializable((AllSongFragment.KEY_PUT_LIST_DATA_SONG))) as ArrayList<DataSong>
         return START_STICKY
     }
 
@@ -50,13 +49,13 @@ class PlaySongService() : Service() {
         player.stop()
     }
 
-    fun playMusic(index: Int) {
+    fun playMusic(song: DataSong) {
         /*Bkav TuanTVb: Xử lý phát nhạc được chọn*/
         player?.let {
             if (player.isPlaying) {
                 player.stop()
             }
-            player = MediaPlayer.create(applicationContext, Uri.parse(listSong[index].data))
+            player = MediaPlayer.create(applicationContext, Uri.parse(song.data))
             player.start()
         }
     }
@@ -100,7 +99,7 @@ class PlaySongService() : Service() {
     }
 
     /* Bkav TuanTVb: Hiển thị Notification*/
-    fun showNotification() {
+    fun showNotification(song: DataSong) {
         val notificationManager = NotificationManagerCompat.from(this)
         val notificationLayout =
             RemoteViews(applicationContext.packageName, R.layout.music_notification)
@@ -109,6 +108,10 @@ class PlaySongService() : Service() {
             addNextIntentWithParentStack(intent)
             getPendingIntent(NOTIF_ID, PendingIntent.FLAG_CANCEL_CURRENT)
         }
+
+        //TODO
+        val remoteViews = RemoteViews(packageName, R.layout.music_notification)
+        remoteViews.setImageViewBitmap(R.id.img_Music, song.getPicture(allSongsViewModel.songIsPlaying.value))
 
         /* Bkav TuanTVb: Apply layout cho notification*/
         val customNotification = NotificationCompat.Builder(applicationContext, CHANEL_ID)

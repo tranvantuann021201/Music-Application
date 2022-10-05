@@ -1,6 +1,9 @@
 package com.example.musicapplication.allsong
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,15 +15,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapplication.MainActivity
-import com.example.musicapplication.PlaySongService
 import com.example.musicapplication.R
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.databinding.AllSongFragmentBinding
-
 /**
  * Created by Bkav TuanTVb on 30/08/2022.
  */
-
 class AllSongFragment : Fragment(), View.OnClickListener {
 
     private lateinit var allSongsViewModel: AllSongViewModel
@@ -28,26 +28,36 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     lateinit var binding: AllSongFragmentBinding
 
     companion object {
-        const val KEY_PUT_LIST_DATA_SONG = "dataSong"
+        const val UPDATE_SONG_UI = "song_update_ui"
+        const val DATA = "dataSong"
     }
 
-    //todo: chưa có unBind: HOÀN THÀNH
+    private var allSongBroadcast = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (UPDATE_SONG_UI == intent?.action) {
+                val index: String? = intent.getStringExtra(DATA)
+                if(index != null) {
+                    updateUISong(index.toInt())
+                }
+            }
+        }
+    }
+
     private val adapter = AllSongAdapter(
         /*Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc*/
-        DataSongListener {song, index ->
+        DataSongListener {song->
             binding.bgGradient.visibility = View.VISIBLE
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
-            if (mainActivity.mBound) {
-                mainActivity.mService.playMusic(index)
+            if (mainActivity.getBoundStatus()) {
+                mainActivity.getServiceStatus().playMusic(song)
                 allSongsViewModel.isPlayedMusic = true
             }
             allSongsViewModel.onDataSongClicked(song.data)
             allSongsViewModel.setSongIsPlaying(song)
 
-            val intent: Intent = Intent (context, PlaySongService::class.java)
-            val dataArray : ArrayList<DataSong> = ArrayList<DataSong>(index)
-            intent.putExtra(KEY_PUT_LIST_DATA_SONG, dataArray)
+            mainActivity.getServiceStatus().showNotification(song)
+
         })
 
     override fun onCreateView(
@@ -78,10 +88,10 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
         /* Bkav TuanTVb: Chuyển hướng sang mediaPlayBackFragment khi bấm vào bottomNavSong*/
         binding.bottomNavSong.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_mediaPlayBackFragment4_to_allSongFragment4)
+            view.findNavController().navigate(R.id.action_allSongFragment_to_mediaPlayBackFragment)
         }
 
-        /* Bkav TuanTVb: Tham chiếu viewmodel sang biến viewmodel bên layout*/
+        /* Bkav TuanTVb: Tham chiếu viewmodel tới biến viewmodel bên layout*/
         binding.allSongViewModel = allSongsViewModel
 
         /* Bkav TuanTVb: Hiển thị thông tin bài hát ở bottomNavSong ngay khi người dùng chọn bài hát*/
@@ -93,12 +103,16 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         })
         binding.btnPlayPause.setOnClickListener(this)
 
+        /*Bkav TuanTVb: đăng kí broadcast  */
+        val intentFilter = IntentFilter(UPDATE_SONG_UI)
+        requireActivity().registerReceiver(allSongBroadcast, intentFilter);
+        return binding.root
+
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-
         /* Bkav TuanTVb: Hiển thị bottomNavSong đúng trạng thái*/
         allSongsViewModel.isPlayMusic = true
         saveStatusBottomNavigation()
@@ -117,7 +131,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        allSongsViewModel.isPlayMusic = (requireActivity() as MainActivity).mService.getStatusMusic()
+        allSongsViewModel.isPlayMusic = (requireActivity() as MainActivity).getServiceStatus().getStatusMusic()
         Log.i("TitleFragment", "onDestroy called")
     }
 
@@ -126,19 +140,19 @@ class AllSongFragment : Fragment(), View.OnClickListener {
      */
     override fun onClick(v: View) {
         if (v.id == R.id.btn_play_pause) {
-            if ((requireActivity() as MainActivity).mService.getStatusMusic()) {
+            if ((requireActivity() as MainActivity).getServiceStatus().getStatusMusic()) {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
             } else {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             }
-            (requireActivity() as MainActivity).mService.playAndPauseMusic()
+            //mService k để public, gọi bằng get
+            (requireActivity() as MainActivity).getServiceStatus().playAndPauseMusic()
         }
     }
 
     /**
      * Bkav TuanTVb: Giữ nguyên trạng thái của btnPlayPause khi xoay màn hình
      */
-
     private fun saveStatusBottomNavigation() {
         if (allSongsViewModel.isPlayedMusic) {
             binding.bottomNavSong.visibility = View.VISIBLE
@@ -150,6 +164,16 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
+    /**
+     * Bkav TuanTVb: update thong tin bai hat
+     */
+    fun updateUISong(index: Int) {
+        val songNext: DataSong = (activity as MainActivity).listSong.value!!.get(index)
+        allSongsViewModel.setSongIsPlaying(songNext)
+    }
+
+
 }
 
 
