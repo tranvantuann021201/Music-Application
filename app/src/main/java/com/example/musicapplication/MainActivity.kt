@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.databinding.ActivityMainBinding
 
+
 /**
  * Created by Bkav TuanTVb on 30/08/2022.
  */
@@ -88,9 +89,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        const val UPDATE_SONG_UI = "song_update_ui"
+        const val DATA = "data_song"
         var instance: MainActivity? = null
-        fun getContext(): Context{
-            return instance!!.applicationContext
-        }
     }
 }

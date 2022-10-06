@@ -18,6 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:layout_toEndOf="@+id/img_music_small"
+        android:maxLength="20"
+        android:ellipsize="end"
         android:text="Tên bài hát" />
 
     <TextView
@@ -25,11 +27,12 @@
         style="@style/TextAppearance.Compat.Notification.Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nghệ sĩ"
         android:layout_below="@+id/txv_name_song"
-        android:layout_toEndOf="@+id/img_music_small"
         android:layout_marginTop="2dp"
-        />
+        android:layout_toEndOf="@+id/img_music_small"
+        android:maxLength="25"
+        android:ellipsize="end"
+        android:text="Nghệ sĩ" />
 
     <ImageView
         android:id="@+id/img_ntf_next_song"

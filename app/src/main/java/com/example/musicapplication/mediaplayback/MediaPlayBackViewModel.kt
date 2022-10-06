@@ -11,18 +11,16 @@ import com.example.musicapplication.database.DataSongRepository
  * Created by Bkav TuanTVb on 04/09/2022.
  */
 
-class MediaPlayBackViewModel(private val dataSource: Application
+class MediaPlayBackViewModel(private val application: Application
 ) : ViewModel(){
 
     private val dataSongRepository = DataSongRepository()
-    val songs = dataSongRepository.getSongs(dataSource)
+    val songs = dataSongRepository.getSongs(application)
 
-    private val _songIsPlaying = MutableLiveData<ArrayList<DataSong>>()
-    val songIsPlaying: LiveData<ArrayList<DataSong>>
+    private val _songIsPlaying = MutableLiveData<DataSong>()
+    val songIsPlaying: LiveData<DataSong>
         get() = _songIsPlaying
 
+    val context = application
 
-    fun setSongIsPlaying(song: ArrayList<DataSong>) {
-        _songIsPlaying.value = song
-    }
 }

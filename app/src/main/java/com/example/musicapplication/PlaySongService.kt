@@ -1,6 +1,7 @@
 package com.example.musicapplication
 
 import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -11,7 +12,6 @@ import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.example.musicapplication.allsong.AllSongViewModel
 import com.example.musicapplication.database.DataSong
 
 /**
@@ -20,9 +20,9 @@ import com.example.musicapplication.database.DataSong
 
 class PlaySongService() : Service() {
 
+    val intent = Intent(MainActivity.UPDATE_SONG_UI)
     private var player: MediaPlayer
     private val binder = LocalBinder()
-    private lateinit var allSongsViewModel: AllSongViewModel
     private lateinit var listSong: ArrayList<DataSong>
 
     companion object {
@@ -36,8 +36,8 @@ class PlaySongService() : Service() {
         player = MediaPlayer()
     }
     override fun onCreate() {
-        super.onCreate()
         createNotificationChanel()
+        super.onCreate()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -58,6 +58,7 @@ class PlaySongService() : Service() {
             player = MediaPlayer.create(applicationContext, Uri.parse(song.data))
             player.start()
         }
+        intent.putExtra(MainActivity.DATA, song)
     }
 
     /* Bkav TuanTVb: Xử lý play/pause bài nhạc*/
@@ -99,27 +100,25 @@ class PlaySongService() : Service() {
     }
 
     /* Bkav TuanTVb: Hiển thị Notification*/
-    fun showNotification(song: DataSong) {
+    fun showNotification(song: DataSong, context: Context) {
         val notificationManager = NotificationManagerCompat.from(this)
-        val notificationLayout =
-            RemoteViews(applicationContext.packageName, R.layout.music_notification)
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = TaskStackBuilder.create(this).run {
             addNextIntentWithParentStack(intent)
             getPendingIntent(NOTIF_ID, PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
-        //TODO
         val remoteViews = RemoteViews(packageName, R.layout.music_notification)
-        remoteViews.setImageViewBitmap(R.id.img_Music, song.getPicture(allSongsViewModel.songIsPlaying.value))
+        remoteViews.setImageViewBitmap(R.id.img_music_small, song.getPicture(context))
+        remoteViews.setTextViewText(R.id.txv_name_song, song.songName)
+        remoteViews.setTextViewText(R.id.txv_artist_song, song.artists)
 
         /* Bkav TuanTVb: Apply layout cho notification*/
-        val customNotification = NotificationCompat.Builder(applicationContext, CHANEL_ID)
-            .setSmallIcon(R.drawable.stat_notify_musicplayer)
-            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-            .setCustomContentView(notificationLayout)
+        val customNotification = NotificationCompat.Builder(this, CHANEL_ID)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentIntent(pendingIntent)
-            .setOngoing(true)
+            .setCustomContentView(remoteViews)
             .build()
         notificationManager.notify(NOTIF_ID,customNotification)
     }

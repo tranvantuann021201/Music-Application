@@ -28,14 +28,12 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     lateinit var binding: AllSongFragmentBinding
 
     companion object {
-        const val UPDATE_SONG_UI = "song_update_ui"
-        const val DATA = "dataSong"
     }
 
     private var allSongBroadcast = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (UPDATE_SONG_UI == intent?.action) {
-                val index: String? = intent.getStringExtra(DATA)
+            if (MainActivity.UPDATE_SONG_UI == intent?.action) {
+                val index: String? = intent.getStringExtra(MainActivity.DATA)
                 if(index != null) {
                     updateUISong(index.toInt())
                 }
@@ -56,8 +54,8 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             allSongsViewModel.onDataSongClicked(song.data)
             allSongsViewModel.setSongIsPlaying(song)
 
-            mainActivity.getServiceStatus().showNotification(song)
-
+            /* Bkav TuanTVb: Hiển thị notification*/
+            mainActivity.getServiceStatus().showNotification(song, requireActivity().applicationContext)
         })
 
     override fun onCreateView(
@@ -104,10 +102,8 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         binding.btnPlayPause.setOnClickListener(this)
 
         /*Bkav TuanTVb: đăng kí broadcast  */
-        val intentFilter = IntentFilter(UPDATE_SONG_UI)
+        val intentFilter = IntentFilter(MainActivity.UPDATE_SONG_UI)
         requireActivity().registerReceiver(allSongBroadcast, intentFilter);
-        return binding.root
-
         return binding.root
     }
 
@@ -145,7 +141,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             } else {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             }
-            //mService k để public, gọi bằng get
             (requireActivity() as MainActivity).getServiceStatus().playAndPauseMusic()
         }
     }
@@ -172,8 +167,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         val songNext: DataSong = (activity as MainActivity).listSong.value!!.get(index)
         allSongsViewModel.setSongIsPlaying(songNext)
     }
-
-
 }
 
 

@@ -6,15 +6,9 @@
     >
 
     <data>
-
         <variable
             name="allSongViewModel"
             type="com.example.musicapplication.allsong.AllSongViewModel" />
-        <variable
-            name="song"
-            type="com.example.musicapplication.database.DataSong" />
-
-
     </data>
 
     <RelativeLayout
@@ -61,7 +55,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                app:bitMap="@{song.getPicture(allSongViewModel.songIsPlaying)}"
+                app:bitmap="@{allSongViewModel.songIsPlaying.getPicture(allSongViewModel.context)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

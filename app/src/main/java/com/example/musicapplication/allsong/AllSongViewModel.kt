@@ -11,11 +11,11 @@ import com.example.musicapplication.database.DataSongRepository
  * Created by Bkav TuanTVb on 30/08/2022.
  */
 
-class AllSongViewModel(private val dataSource: Application) : ViewModel() {
+class AllSongViewModel(private val application: Application) : ViewModel() {
 
     private val dataSongRepository = DataSongRepository()
 
-    val songs = dataSongRepository.getSongs(dataSource)
+    val songs = dataSongRepository.getSongs(application)
 
     var isPlayedMusic = false
 
@@ -25,7 +25,8 @@ class AllSongViewModel(private val dataSource: Application) : ViewModel() {
     val songIsPlaying: LiveData<DataSong>
         get() = _songIsPlaying
 
-    val resources = dataSource.resources!!
+    val resources = application.resources!!
+    val context = application
 
     fun onDataSongClicked(data: String) {
     }
