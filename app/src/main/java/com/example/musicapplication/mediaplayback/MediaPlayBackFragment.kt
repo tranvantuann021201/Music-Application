@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.musicapplication.MainActivity
 import com.example.musicapplication.R
+import com.example.musicapplication.database.DataSong
 import com.example.musicapplication.databinding.MediaPlayBackFragmentBinding
 
 /**
@@ -49,6 +50,9 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
                 .navigate(R.id.action_mediaPlayBackFragment4_to_allSongFragment4)
         }
 
+        /*Bkav TuanTVb: update song*/
+        setSongIsPlaying(getArgs())
+
         binding.icPauseSong.setOnClickListener(this)
         binding.mediaPlayBackViewModel = mediaPlayBackViewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -81,5 +85,15 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
             }
             (requireActivity() as MainActivity).getServiceStatus().playAndPauseMusic()
         }
+    }
+
+    /* Bkav TuanTVb: Đổ dữ liệu cho setSongIsPlaying ở viewModel*/
+    fun setSongIsPlaying(song: DataSong) {
+        mediaPlayBackViewModel.setSongIsPlaying(song)
+    }
+
+    /* Bkav TuanTVb: Lấy đối số được truyền từ AllSongFragment*/
+    private fun getArgs(): DataSong {
+        return MediaPlayBackFragmentArgs.fromBundle(requireArguments()).song
     }
 }

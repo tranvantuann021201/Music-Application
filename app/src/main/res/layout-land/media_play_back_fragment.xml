@@ -9,9 +9,6 @@
         <variable
             name="mediaPlayBackViewModel"
             type="com.example.musicapplication.mediaplayback.MediaPlayBackViewModel" />
-        <variable
-            name="allSongViewModel"
-            type="com.example.musicapplication.allsong.AllSongViewModel" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"

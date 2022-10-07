@@ -48,9 +48,8 @@
 
             <ImageView
                 android:id="@+id/img_Music"
+                style="@style/style_small_thumnail_music"
                 resources="@{allSongViewModel.resources}"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
@@ -66,15 +65,9 @@
 
             <TextView
                 android:id="@+id/song_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/style_name_music"
                 android:layout_marginStart="10dp"
-                android:ellipsize="end"
-                android:maxLength="23"
-                android:singleLine="true"
                 android:text="@{allSongViewModel.songIsPlaying.songName}"
-                android:textColor="#212121"
-                android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
                 app:layout_constraintEnd_toStartOf="@+id/btn_play_pause"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -85,13 +78,10 @@
 
             <TextView
                 android:id="@+id/song_artist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/style_artist_music"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="4dp"
                 android:text="@{allSongViewModel.songIsPlaying.artists}"
-                android:textColor="#605C5C"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_Music"
                 app:layout_constraintEnd_toStartOf="@+id/btn_play_pause"
                 app:layout_constraintHorizontal_bias="0.0"

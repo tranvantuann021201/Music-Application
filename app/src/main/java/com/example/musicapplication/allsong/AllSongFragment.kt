@@ -26,6 +26,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     private lateinit var allSongsViewModel: AllSongViewModel
     private lateinit var mainActivity: MainActivity
     lateinit var binding: AllSongFragmentBinding
+    lateinit var songPra: DataSong
 
     companion object {
     }
@@ -43,7 +44,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
     private val adapter = AllSongAdapter(
         /*Bkav TuanTVb: Xử lý Click khi người dùng bấm vào bài nhạc*/
-        DataSongListener {song->
+        DataSongListener {song ->
             binding.bgGradient.visibility = View.VISIBLE
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
@@ -53,6 +54,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             }
             allSongsViewModel.onDataSongClicked(song.data)
             allSongsViewModel.setSongIsPlaying(song)
+            songPra = song
 
             /* Bkav TuanTVb: Hiển thị notification*/
             mainActivity.getServiceStatus().showNotification(song, requireActivity().applicationContext)
@@ -64,7 +66,6 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     ): View? {
 
         mainActivity = requireActivity() as MainActivity
-
         /* Bkav TuanTVb: Inflate all_song_fragment layout*/
         binding = DataBindingUtil.inflate<AllSongFragmentBinding?>(
             inflater,
@@ -84,9 +85,11 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         /* Bkav TuanTVb: Gán dữ liệu cho RecyclerView cho adapter*/
         binding.listSong.adapter = adapter
 
-        /* Bkav TuanTVb: Chuyển hướng sang mediaPlayBackFragment khi bấm vào bottomNavSong*/
+        /* Bkav TuanTVb: Chuyển hướng sang và truyền đối số sang mediaPlayBackFragment khi bấm vào bottomNavSong*/
         binding.bottomNavSong.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_allSongFragment_to_mediaPlayBackFragment)
+            view.findNavController().navigate(
+                AllSongFragmentDirections.actionAllSongFragmentToMediaPlayBackFragment(songPra)
+            )
         }
 
         /* Bkav TuanTVb: Tham chiếu viewmodel tới biến viewmodel bên layout*/

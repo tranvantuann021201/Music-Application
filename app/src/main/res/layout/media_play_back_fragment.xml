@@ -9,14 +9,16 @@
             name="mediaPlayBackViewModel"
             type="com.example.musicapplication.mediaplayback.MediaPlayBackViewModel" />
         <variable
-            name="getPictureIsPlaying"
-            type="com.example.musicapplication.GetPictureFormDataMusic" />
+            name="resources"
+            type="android.content.res.Resources" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_launcher_background">
+        app:bitmap="@{mediaPlayBackViewModel.songIsPlaying.getPicture(mediaPlayBackViewModel.context)}"
+        app:resources="@{mediaPlayBackViewModel.resources}"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/song_top_widget"
@@ -27,9 +29,19 @@
 
             <ImageView
                 android:id="@+id/img_Music"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stat_notify_musicplayer"
+                style="@style/style_small_thumnail_music"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                app:bitmap="@{mediaPlayBackViewModel.songIsPlaying.getPicture(mediaPlayBackViewModel.context)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/icon_collect_song"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.51"
+                app:resources="@{mediaPlayBackViewModel.resources}"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -37,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="@{mediaPlayBackViewModel.songIsPlaying.get(1).songName}"
+                android:text="@{mediaPlayBackViewModel.songIsPlaying.songName}"
                 android:textColor="#212121"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/song_artist"
@@ -45,7 +57,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/img_Music"
                 app:layout_constraintTop_toTopOf="@+id/img_Music"
-                app:layout_constraintVertical_bias="0.615"
+                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="MissingConstraints" />
 
             <TextView
@@ -53,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginBottom="8dp"
-                android:text="@{mediaPlayBackViewModel.songIsPlaying.get(1).artists}"
+                android:layout_marginBottom="1dp"
+                android:text="@{mediaPlayBackViewModel.songIsPlaying.artists}"
                 android:textColor="#605C5C"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="@+id/img_Music"

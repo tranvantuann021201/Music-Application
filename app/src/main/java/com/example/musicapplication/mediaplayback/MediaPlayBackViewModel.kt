@@ -16,11 +16,15 @@ class MediaPlayBackViewModel(private val application: Application
 
     private val dataSongRepository = DataSongRepository()
     val songs = dataSongRepository.getSongs(application)
-
     private val _songIsPlaying = MutableLiveData<DataSong>()
     val songIsPlaying: LiveData<DataSong>
         get() = _songIsPlaying
-
     val context = application
+    val resources = application.resources!!
+
+    /* Bkav TuanTVb: set data bài nhạc đang chạy*/
+    fun setSongIsPlaying(song: DataSong) {
+        _songIsPlaying.value = song
+    }
 
 }
