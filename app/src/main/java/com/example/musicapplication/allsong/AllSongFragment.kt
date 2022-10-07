@@ -141,10 +141,11 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         if (v.id == R.id.btn_play_pause) {
             if ((requireActivity() as MainActivity).getServiceStatus().getStatusMusic()) {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
+                mainActivity.getServiceStatus().pauseMusic()
             } else {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+                mainActivity.getServiceStatus().onMusic()
             }
-            (requireActivity() as MainActivity).getServiceStatus().playAndPauseMusic()
         }
     }
 

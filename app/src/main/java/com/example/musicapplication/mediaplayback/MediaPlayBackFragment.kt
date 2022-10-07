@@ -75,24 +75,31 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    /* Bkav TuanTVb: Xử lý click khi chọn Play/Pause bài nhạc*/
+    /**
+     *  Bkav TuanTVb: Xử lý click khi chọn Play/Pause bài nhạc
+     *  */
     override fun onClick(v: View) {
         if (v === binding.icPauseSong) {
             if (mainActivity.getServiceStatus().getStatusMusic()) {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_play_dark)
+                mainActivity.getServiceStatus().pauseMusic()
             } else {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
+                mainActivity.getServiceStatus().onMusic()
             }
-            (requireActivity() as MainActivity).getServiceStatus().playAndPauseMusic()
         }
     }
 
-    /* Bkav TuanTVb: Đổ dữ liệu cho setSongIsPlaying ở viewModel*/
+    /**
+     * Bkav TuanTVb: Đổ dữ liệu cho setSongIsPlaying ở viewModel
+     * */
     fun setSongIsPlaying(song: DataSong) {
         mediaPlayBackViewModel.setSongIsPlaying(song)
     }
 
-    /* Bkav TuanTVb: Lấy đối số được truyền từ AllSongFragment*/
+    /**
+     *  Bkav TuanTVb: Lấy đối số được truyền từ AllSongFragment
+     **/
     private fun getArgs(): DataSong {
         return MediaPlayBackFragmentArgs.fromBundle(requireArguments()).song
     }
