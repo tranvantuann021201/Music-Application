@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
+import android.app.PendingIntent.getActivity
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -21,14 +22,13 @@ import com.example.musicapplication.database.DataSong
 
 class PlaySongService() : Service() {
 
-    var index: Int = -1
     val intent = Intent(MainActivity.UPDATE_SONG_UI)
     private var player: MediaPlayer
     private val binder = LocalBinder()
     var listSong = MutableLiveData<ArrayList<DataSong>>()
 
     companion object {
-        //không nên đặt const cho 2 biến này. Nên để dạng XML
+        var index: Int = -1
         const val CHANEL_ID = "chanelID"
         const val CHANEL_NAME = "chanelName"
         const val NOTIF_ID = 0
@@ -57,17 +57,19 @@ class PlaySongService() : Service() {
         player.stop()
     }
 
-    fun playMusic(song: DataSong) {
+    fun playMusic(song: DataSong, context: Context) {
         /*Bkav TuanTVb: Xử lý phát nhạc được chọn*/
         player?.let {
+            showNotification(song,context)
             if (player.isPlaying) {
                 player.stop()
             }
             player = MediaPlayer.create(applicationContext, Uri.parse(song.data))
             player.start()
+//            index = listSong.value!!.indexOf(song)
+            intent.putExtra(MainActivity.DATA, song)
+            sendBroadcast(intent)
         }
-        intent.putExtra(MainActivity.DATA, song)
-        sendBroadcast(intent)
     }
 
     /* Bkav TuanTVb: Xử lý play/pause bài nhạc*/

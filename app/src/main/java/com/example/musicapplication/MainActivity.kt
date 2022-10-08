@@ -91,6 +91,5 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val UPDATE_SONG_UI = "song_update_ui"
         const val DATA = "data_song"
-        var instance: MainActivity? = null
     }
 }

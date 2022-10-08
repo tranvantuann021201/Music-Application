@@ -49,7 +49,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
             if (mainActivity.getBoundStatus()) {
-                mainActivity.getServiceStatus().playMusic(song)
+                mainActivity.getServiceStatus().playMusic(song, requireContext())
                 allSongsViewModel.isPlayedMusic = true
             }
             allSongsViewModel.onDataSongClicked(song.data)
@@ -102,6 +102,8 @@ class AllSongFragment : Fragment(), View.OnClickListener {
         allSongsViewModel.songs.observe(viewLifecycleOwner, Observer { newSongs ->
             adapter.data = newSongs
         })
+
+        /* Bkav TuanTVb: Xử lý sự kiện button play/pause*/
         binding.btnPlayPause.setOnClickListener(this)
 
         /*Bkav TuanTVb: đăng kí broadcast  */

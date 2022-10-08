@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
  * Created by Bkav TuanTVb on 30/08/2022.
  */
 
-@Entity
+@Entity(tableName = "favorite_songs_provider")
 data class SongTable(
     @PrimaryKey(autoGenerate = true)
     var ID: Int = 0,

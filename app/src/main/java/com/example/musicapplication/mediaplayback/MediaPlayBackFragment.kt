@@ -1,9 +1,14 @@
 package com.example.musicapplication.mediaplayback
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +16,7 @@ import androidx.navigation.findNavController
 import com.example.musicapplication.MainActivity
 import com.example.musicapplication.R
 import com.example.musicapplication.database.DataSong
+import com.example.musicapplication.database.FavoriteSongsDatabase
 import com.example.musicapplication.databinding.MediaPlayBackFragmentBinding
 
 /**
@@ -23,6 +29,23 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
     private lateinit var mainActivity: MainActivity
     private lateinit var binding: MediaPlayBackFragmentBinding
 
+    /**
+     * Bkav TuanTVb: nhan data tu service de auto next song
+     */
+    private var mBroadcast = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (MainActivity.UPDATE_SONG_UI == intent?.action) {
+                /*Bkav TuanTVb: nhan data bai hat khi auto next vaf update ui */
+                val index: String? = intent.getStringExtra(MainActivity.DATA)
+                val song: DataSong? =
+                    index?.let { (activity as MainActivity).listSong.value?.get(it.toInt()) }
+                if (song != null) {
+                    setSongIsPlaying(song)
+                }
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,26 +57,44 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
             container,
             false
         )
+
         mainActivity = requireActivity() as MainActivity
+        val roomDatabase = FavoriteSongsDatabase.getInstance(requireContext()).favoriteSongsDatabaseDAO
 
         /* Bkav TuanTVb: Tham chiếu mediaPlayBackViewModel đến MediaPlayBackFragment*/
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = MediaPlayBackViewModelFactory(application)
+        val viewModelFactory = MediaPlayBackViewModelFactory(application,roomDatabase)
         mediaPlayBackViewModel =
             ViewModelProvider(
                 this, viewModelFactory
             )[MediaPlayBackViewModel::class.java]
 
-        /* Bkav TuanTVb: Xử lý click khi bấm vào iconCollectSong*/
-        binding.iconCollectSong.setOnClickListener { view: View ->
-            view.findNavController()
-                .navigate(R.id.action_mediaPlayBackFragment4_to_allSongFragment4)
-        }
+        mediaPlayBackViewModel.roomDatabase.getAllSongs()
 
-        /*Bkav TuanTVb: update song*/
-        setSongIsPlaying(getArgs())
+        /* Bkav TuanTVb: Xử lý click khi bấm vào iconCollectSong*/
+        binding.iconCollectSong.setOnClickListener(this)
+
+        /*Bkav TuanTVb: update UI*/
+        updateUI()
 
         binding.icPauseSong.setOnClickListener(this)
+
+        /* Bkav TuanTVb: Xử lý sự kiện button like*/
+        binding.icLikeSong.setOnClickListener { view: View ->
+            if(view.id == R.id.ic_like_song) {
+                if(mediaPlayBackViewModel.checkExistSong(getArgs().songID!!.toInt())) {
+                    mediaPlayBackViewModel.onClickLikeButton(getArgs().songID!!.toInt())
+                    Toast.makeText(requireContext(), "FAVORITED", Toast.LENGTH_SHORT).show()
+                    binding.icLikeSong.setImageResource(R.drawable.ic_thumbs_up_selected)
+                }
+                else{
+                    mediaPlayBackViewModel.onClickDislikeButton(getArgs().songID!!.toInt())
+                    Toast.makeText(requireContext(), "REMOVED", Toast.LENGTH_SHORT).show()
+                    binding.icLikeSong.setImageResource(R.drawable.ic_thumbs_up_default)
+                }
+            }
+        }
+
         binding.mediaPlayBackViewModel = mediaPlayBackViewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -63,6 +104,13 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
         saveStatusBottomNavigation()
+        val intentFilter = IntentFilter(MainActivity.UPDATE_SONG_UI)
+        requireActivity().registerReceiver(mBroadcast, intentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        requireActivity().unregisterReceiver(mBroadcast)
     }
 
     /* Bkav TuanTVb: Lưu lại trạng thái của bottomNavigation*/
@@ -78,8 +126,8 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
     /**
      *  Bkav TuanTVb: Xử lý click khi chọn Play/Pause bài nhạc
      *  */
-    override fun onClick(v: View) {
-        if (v === binding.icPauseSong) {
+    override fun onClick(view: View) {
+        if (view === binding.icPauseSong) {
             if (mainActivity.getServiceStatus().getStatusMusic()) {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_play_dark)
                 mainActivity.getServiceStatus().pauseMusic()
@@ -87,6 +135,11 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
                 mainActivity.getServiceStatus().onMusic()
             }
+        }
+
+        if(view === binding.iconCollectSong) {
+            view.findNavController()
+                .navigate(R.id.action_mediaPlayBackFragment4_to_allSongFragment4)
         }
     }
 
@@ -102,5 +155,19 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
      **/
     private fun getArgs(): DataSong {
         return MediaPlayBackFragmentArgs.fromBundle(requireArguments()).song
+    }
+
+    /**
+     * Bkav TuanTVb: Update UI
+     */
+    private fun updateUI() {
+        setSongIsPlaying(getArgs())
+        if(!mediaPlayBackViewModel.checkExistSong(getArgs().songID!!.toInt())){
+            binding.icLikeSong.setImageResource(R.drawable.ic_thumbs_up_selected)
+        }
+        else
+        {
+            binding.icLikeSong.setImageResource(R.drawable.ic_thumbs_up_default)
+        }
     }
 }
