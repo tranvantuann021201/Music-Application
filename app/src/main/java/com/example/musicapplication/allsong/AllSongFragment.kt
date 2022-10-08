@@ -55,6 +55,12 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             allSongsViewModel.onDataSongClicked(song.data)
             allSongsViewModel.setSongIsPlaying(song)
             songPra = song
+            if(mainActivity.getServiceStatus().getListSong().size == 0){
+                allSongsViewModel.songs.value?.let {
+                    mainActivity.getServiceStatus().setListSong(it as ArrayList<DataSong>)
+                }
+
+            }
 
             /* Bkav TuanTVb: Hiển thị notification*/
             mainActivity.getServiceStatus().showNotification(song, requireActivity().applicationContext)

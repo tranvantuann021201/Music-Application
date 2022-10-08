@@ -1,11 +1,15 @@
 package com.example.musicapplication
 
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_MUTABLE
+import android.app.PendingIntent.getActivity
+import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
-import android.app.PendingIntent.getActivity
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -13,7 +17,6 @@ import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.MutableLiveData
 import com.example.musicapplication.database.DataSong
 
 /**
@@ -25,7 +28,7 @@ class PlaySongService() : Service() {
     val intent = Intent(MainActivity.UPDATE_SONG_UI)
     private var player: MediaPlayer
     private val binder = LocalBinder()
-    var listSong = MutableLiveData<ArrayList<DataSong>>()
+    private var listSong = arrayListOf<DataSong>()
 
     companion object {
         var index: Int = -1
@@ -44,10 +47,19 @@ class PlaySongService() : Service() {
         super.onCreate()
     }
 
+    fun setListSong(songs: ArrayList<DataSong>){
+        listSong.clear()
+        listSong.addAll(songs)
+    }
+
+    fun getListSong(): ArrayList<DataSong>{
+        return listSong
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
-        if (index != -1){
-            handleActionMusic(action)
+        if (action != null){
+            handleActionMusic(action.toString())
         }
         return START_STICKY
     }
@@ -119,11 +131,8 @@ class PlaySongService() : Service() {
     /* Bkav TuanTVb: Hiển thị Notification*/
     fun showNotification(song: DataSong, context: Context) {
         val notificationManager = NotificationManagerCompat.from(this)
-        val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent = TaskStackBuilder.create(this).run {
-            addNextIntentWithParentStack(intent)
-            getPendingIntent(NOTIF_ID, PendingIntent.FLAG_CANCEL_CURRENT)
-        }
+        val intent = Intent(baseContext, MainActivity::class.java)
+        val pendingIntent = getActivity(this,0, intent, FLAG_MUTABLE)
 
         val remoteViews = RemoteViews(packageName, R.layout.music_notification)
         remoteViews.setImageViewBitmap(R.id.img_music_small, song.getPicture(context))
@@ -153,16 +162,18 @@ class PlaySongService() : Service() {
             .setSmallIcon(R.drawable.stat_notify_musicplayer)
             .setContentIntent(pendingIntent)
             .setCustomContentView(remoteViews)
+            .setOngoing(true)
             .build()
         notificationManager.notify(NOTIF_ID,customNotification)
         startForeground(NOTIF_ID, customNotification)
         }
 
+    //TODo
     /**
      * Bkav TuanTVb: su ly su kien tren notification
      */
     private fun handleActionMusic(action: String?) {
-        val song: DataSong = listSong.value!![index]
+        val song: DataSong = listSong[0]
         when (action) {
             ACTION_PAUSE.toString() -> {
                 onMusic()
