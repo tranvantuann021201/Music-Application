@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -28,7 +30,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
     private lateinit var mediaPlayBackViewModel: MediaPlayBackViewModel
     private lateinit var mainActivity: MainActivity
     private lateinit var binding: MediaPlayBackFragmentBinding
-
+    val handler = Handler()
     /**
      * Bkav TuanTVb: nhan data tu service de auto next song
      */
@@ -41,6 +43,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
                     index?.let { (activity as MainActivity).listSong.value?.get(it.toInt()) }
                 if (song != null) {
                     setSongIsPlaying(song)
+                    processSeekBar(song)
                 }
             }
         }
@@ -161,6 +164,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
      * Bkav TuanTVb: Update UI
      */
     private fun updateUI() {
+        processSeekBar(getArgs())
         setSongIsPlaying(getArgs())
         if(!mediaPlayBackViewModel.checkExistSong(getArgs().songID!!.toInt())){
             binding.icLikeSong.setImageResource(R.drawable.ic_thumbs_up_selected)
@@ -170,4 +174,43 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
             binding.icLikeSong.setImageResource(R.drawable.ic_thumbs_up_default)
         }
     }
+
+    /**
+     * Bkav TuanTVb: xử lý thanh Seekbar
+     */
+    fun processSeekBar(song: DataSong) {
+        binding.seakMediaPlayBack.max = song.duration!!.toInt()
+        binding.seakMediaPlayBack.setOnSeekBarChangeListener(
+            object : SeekBar.OnSeekBarChangeListener{
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if (mainActivity.getServiceStatus().player != null && fromUser) {
+                        mainActivity.getServiceStatus().player.seekTo(progress)
+                    }
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                }
+            }
+        )
+        handler.postDelayed(object : Runnable{
+            override fun run() {
+                try {
+                    binding.seakMediaPlayBack.progress =
+                        mainActivity.getServiceStatus().player.currentPosition
+                    handler.postDelayed(this,1000)
+                }
+                catch (e: Exception) {
+                    binding.seakMediaPlayBack.progress = 0
+                }
+            }
+        },0)
+    }
 }
+

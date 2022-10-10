@@ -18,7 +18,6 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.musicapplication.database.DataSong
-
 /**
  * Created by Bkav TuanTVb on 05/09/2022.
  */
@@ -26,7 +25,7 @@ import com.example.musicapplication.database.DataSong
 class PlaySongService() : Service() {
 
     val intent = Intent(MainActivity.UPDATE_SONG_UI)
-    private var player: MediaPlayer
+    var player: MediaPlayer
     private val binder = LocalBinder()
     private var listSong = arrayListOf<DataSong>()
 
