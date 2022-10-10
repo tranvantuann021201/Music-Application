@@ -180,6 +180,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
      */
     fun processSeekBar(song: DataSong) {
         binding.seakMediaPlayBack.max = song.duration!!.toInt()
+        /* Bkav TuanTVb: xử lý tua bài nhạc*/
         binding.seakMediaPlayBack.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener{
                 override fun onProgressChanged(
@@ -199,6 +200,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
                 }
             }
         )
+        /* Bkav TuanTVb: update seekbar mỗi 1000 mili giây*/
         handler.postDelayed(object : Runnable{
             override fun run() {
                 try {
