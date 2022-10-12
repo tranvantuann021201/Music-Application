@@ -23,4 +23,6 @@
     <string name="end_time"><![CDATA[<b>End:</b>]]></string>
     <string name="quality"><![CDATA[<b>Quality:</b>]]></string>
     <string name="hours_slept"><![CDATA[<b>Hours:Minutes:Seconds</b>]]></string>
+    <string name="song_update_ui">song_update_ui</string>
+    <string name="data_song">data_song</string>
 </resources>

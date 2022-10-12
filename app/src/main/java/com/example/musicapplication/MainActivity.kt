@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun getServiceStatus(): PlaySongService {
+    fun getService(): PlaySongService {
         return mService
     }
 
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val UPDATE_SONG_UI = "song_update_ui"
-        const val DATA = "data_song"
+        const val UPDATE_SONG_UI: String = R.string.song_update_ui.toString()
+        const val DATA: String = R.string.data_song.toString()
     }
 }

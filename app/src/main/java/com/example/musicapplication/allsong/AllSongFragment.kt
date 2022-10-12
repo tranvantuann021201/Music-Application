@@ -28,9 +28,9 @@ class AllSongFragment : Fragment(), View.OnClickListener {
     lateinit var binding: AllSongFragmentBinding
     lateinit var songPra: DataSong
 
-    companion object {
-    }
-
+    /**
+     * Bkav TuanTVb: nhan data tu service
+     */
     private var allSongBroadcast = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (MainActivity.UPDATE_SONG_UI == intent?.action) {
@@ -48,22 +48,22 @@ class AllSongFragment : Fragment(), View.OnClickListener {
             binding.bgGradient.visibility = View.VISIBLE
             binding.bottomNavSong.visibility = View.VISIBLE
             binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
+            if(mainActivity.getService().getListSong().size == 0){
+                allSongsViewModel.songs.value?.let {
+                    mainActivity.getService().setListSong(it as ArrayList<DataSong>)
+                    mainActivity.getService()
+                }
+            }
             if (mainActivity.getBoundStatus()) {
-                mainActivity.getServiceStatus().playMusic(song, requireContext())
+                mainActivity.getService().playMusic(song, requireContext())
                 allSongsViewModel.isPlayedMusic = true
             }
             allSongsViewModel.onDataSongClicked(song.data)
             allSongsViewModel.setSongIsPlaying(song)
             songPra = song
-            if(mainActivity.getServiceStatus().getListSong().size == 0){
-                allSongsViewModel.songs.value?.let {
-                    mainActivity.getServiceStatus().setListSong(it as ArrayList<DataSong>)
-                }
-
-            }
 
             /* Bkav TuanTVb: Hiển thị notification*/
-            mainActivity.getServiceStatus().showNotification(song, requireActivity().applicationContext)
+            mainActivity.getService().showNotification(song, requireActivity().applicationContext)
         })
 
     override fun onCreateView(
@@ -138,7 +138,7 @@ class AllSongFragment : Fragment(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        allSongsViewModel.isPlayMusic = (requireActivity() as MainActivity).getServiceStatus().getStatusMusic()
+        allSongsViewModel.isPlayMusic = (requireActivity() as MainActivity).getService().getStatusMusic()
         Log.i("TitleFragment", "onDestroy called")
     }
 
@@ -147,12 +147,12 @@ class AllSongFragment : Fragment(), View.OnClickListener {
      */
     override fun onClick(v: View) {
         if (v.id == R.id.btn_play_pause) {
-            if ((requireActivity() as MainActivity).getServiceStatus().getStatusMusic()) {
+            if ((requireActivity() as MainActivity).getService().getStatusMusic()) {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_play_black_round)
-                mainActivity.getServiceStatus().pauseMusic()
+                mainActivity.getService().pauseMusic()
             } else {
                 binding.btnPlayPause.setBackgroundResource(R.drawable.ic_pause_black_large)
-                mainActivity.getServiceStatus().onMusic()
+                mainActivity.getService().onMusic()
             }
         }
     }
@@ -176,8 +176,8 @@ class AllSongFragment : Fragment(), View.OnClickListener {
      * Bkav TuanTVb: update thong tin bai hat
      */
     fun updateUISong(index: Int) {
-        val songNext: DataSong = (activity as MainActivity).listSong.value!!.get(index)
-        allSongsViewModel.setSongIsPlaying(songNext)
+        val song: DataSong = (activity as MainActivity).listSong.value!![index]
+        allSongsViewModel.setSongIsPlaying(song)
     }
 }
 

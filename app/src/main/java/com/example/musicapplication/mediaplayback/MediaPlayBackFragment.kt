@@ -31,13 +31,14 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
     private lateinit var mainActivity: MainActivity
     private lateinit var binding: MediaPlayBackFragmentBinding
     val handler = Handler()
+
     /**
-     * Bkav TuanTVb: nhan data tu service de auto next song
+     * Bkav TuanTVb: nhan data tu service
      */
-    private var mBroadcast = object : BroadcastReceiver() {
+    private var playBackBroadcast = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (MainActivity.UPDATE_SONG_UI == intent?.action) {
-                /*Bkav TuanTVb: nhan data bai hat khi auto next vaf update ui */
+                /*Bkav TuanTVb: nhan data bai hat khi auto next va update ui */
                 val index: String? = intent.getStringExtra(MainActivity.DATA)
                 val song: DataSong? =
                     index?.let { (activity as MainActivity).listSong.value?.get(it.toInt()) }
@@ -108,17 +109,17 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
         super.onStart()
         saveStatusBottomNavigation()
         val intentFilter = IntentFilter(MainActivity.UPDATE_SONG_UI)
-        requireActivity().registerReceiver(mBroadcast, intentFilter)
+        requireActivity().registerReceiver(playBackBroadcast, intentFilter)
     }
 
     override fun onStop() {
         super.onStop()
-        requireActivity().unregisterReceiver(mBroadcast)
+        requireActivity().unregisterReceiver(playBackBroadcast)
     }
 
     /* Bkav TuanTVb: Lưu lại trạng thái của bottomNavigation*/
     private fun saveStatusBottomNavigation() {
-        if(mainActivity.getServiceStatus().getStatusMusic()){
+        if(mainActivity.getService().getStatusMusic()){
             binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
         }
         else{
@@ -131,12 +132,12 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
      *  */
     override fun onClick(view: View) {
         if (view === binding.icPauseSong) {
-            if (mainActivity.getServiceStatus().getStatusMusic()) {
+            if (mainActivity.getService().getStatusMusic()) {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_play_dark)
-                mainActivity.getServiceStatus().pauseMusic()
+                mainActivity.getService().pauseMusic()
             } else {
                 binding.icPauseSong.setImageResource(R.drawable.ic_media_pause_dark)
-                mainActivity.getServiceStatus().onMusic()
+                mainActivity.getService().onMusic()
             }
         }
 
@@ -188,8 +189,8 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    if (mainActivity.getServiceStatus().player != null && fromUser) {
-                        mainActivity.getServiceStatus().player.seekTo(progress)
+                    if (mainActivity.getService().player != null && fromUser) {
+                        mainActivity.getService().player.seekTo(progress)
                     }
                 }
 
@@ -205,7 +206,7 @@ class MediaPlayBackFragment : Fragment(), View.OnClickListener {
             override fun run() {
                 try {
                     binding.seakMediaPlayBack.progress =
-                        mainActivity.getServiceStatus().player.currentPosition
+                        mainActivity.getService().player.currentPosition
                     handler.postDelayed(this,1000)
                 }
                 catch (e: Exception) {

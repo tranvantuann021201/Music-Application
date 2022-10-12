@@ -27,10 +27,11 @@ class PlaySongService() : Service() {
     val intent = Intent(MainActivity.UPDATE_SONG_UI)
     var player: MediaPlayer
     private val binder = LocalBinder()
-    private var listSong = arrayListOf<DataSong>()
+    private var listSong = ArrayList<DataSong>()
 
     companion object {
         var index: Int = -1
+        const val STATUS_PLAY_MUSIC = "status_play_music"
         const val CHANEL_ID = "chanelID"
         const val CHANEL_NAME = "chanelName"
         const val NOTIF_ID = 0
@@ -60,6 +61,8 @@ class PlaySongService() : Service() {
         if (action != null){
             handleActionMusic(action.toString())
         }
+        intent!!.putExtra(STATUS_PLAY_MUSIC, player.isPlaying)
+        sendBroadcast(intent)
         return START_STICKY
     }
 
@@ -77,9 +80,9 @@ class PlaySongService() : Service() {
             }
             player = MediaPlayer.create(applicationContext, Uri.parse(song.data))
             player.start()
-//            index = listSong.value!!.indexOf(song)
             intent.putExtra(MainActivity.DATA, song)
             sendBroadcast(intent)
+            index = listSong.indexOf(song)
         }
     }
 
@@ -111,7 +114,7 @@ class PlaySongService() : Service() {
     }
 
     /* Bkav TuanTVb: Đăng ký chanel cho Notification*/
-    fun createNotificationChanel() {
+    private fun createNotificationChanel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val chanel = NotificationChannel(
                 CHANEL_ID,
@@ -126,7 +129,6 @@ class PlaySongService() : Service() {
         }
     }
 
-
     /* Bkav TuanTVb: Hiển thị Notification*/
     fun showNotification(song: DataSong, context: Context) {
         val notificationManager = NotificationManagerCompat.from(this)
@@ -137,7 +139,6 @@ class PlaySongService() : Service() {
         remoteViews.setImageViewBitmap(R.id.img_music_small, song.getPicture(context))
         remoteViews.setTextViewText(R.id.txv_name_song, song.songName)
         remoteViews.setTextViewText(R.id.txv_artist_song, song.artists)
-                //TODO
         /* Bkav TuanTVb: Xử lý sự kiện khi bấm vào nút play/pause trên Notification*/
         if (getStatusMusic()) {
             remoteViews.setOnClickPendingIntent(R.id.img_ntf_play_pause,
@@ -167,18 +168,18 @@ class PlaySongService() : Service() {
         startForeground(NOTIF_ID, customNotification)
         }
 
-    //TODo
     /**
      * Bkav TuanTVb: su ly su kien tren notification
      */
     private fun handleActionMusic(action: String?) {
-        val song: DataSong = listSong[0]
+        //TODO
+        val song: DataSong = listSong[index]
         when (action) {
-            ACTION_PAUSE.toString() -> {
+            ACTION_PLAY.toString() -> {
                 onMusic()
                 showNotification(song,applicationContext)
             }
-            ACTION_PLAY.toString() -> {
+            ACTION_PAUSE.toString() -> {
                 pauseMusic()
                 showNotification(song,applicationContext)
             }
